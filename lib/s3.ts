@@ -96,8 +96,18 @@ export async function getObjectFromS3(key: string, range?: string) {
       contentType: res.ContentType,
     }
   } catch (err: unknown) {
-    const e = err as { name?: string; $metadata?: { httpStatusCode?: number } }
-    if (e?.name === 'NoSuchKey' || e?.name === 'NotFound' || e?.$metadata?.httpStatusCode === 404) return null
+    const e = err as { name?: string; Code?: string; $metadata?: { httpStatusCode?: number } }
+    const code = e?.name ?? e?.Code
+    const status = e?.$metadata?.httpStatusCode
+    // Fichier absent de S3 → on renvoie null pour basculer sur le disque (rétro-compat).
+    // S3 répond "AccessDenied" (403) au lieu de "NoSuchKey" (404) quand l'IAM n'a pas
+    // la permission s3:ListBucket : on traite donc aussi 403 comme "non trouvé".
+    if (
+      code === 'NoSuchKey' || code === 'NotFound' || code === 'AccessDenied' ||
+      status === 404 || status === 403
+    ) {
+      return null
+    }
     throw err
   }
 }
