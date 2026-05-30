@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  password      String
+  name          String?
+  avatar        String?
+  role          Role           @default(CUSTOMER)
+  purchases     Purchase[]
+  subscriptions Subscription[]
+  loginHistory      LoginHistory[]
+  auditLogs         AuditLog[]     @relation("AdminLogs")
+  comments          Comment[]
+  blocked           Boolean        @default(false)
+  blockedReason     String?        @db.Text
+  blockedAt         DateTime?
+  deletedAt         DateTime?
+  currentSessionId  String?
+  currentSessionAt  DateTime?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@map("users")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String   @db.Text
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([approved, createdAt])
+  @@map("comments")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+model Purchase {
+  id             String          @id @default(cuid())
+  userId         String
+  bookSlug       String
+  bookTitle      String
+  amount         Float
+  currency       String          @default("CAD")
+  paymentMethod  PaymentMethod
+  status         PaymentStatus   @default(PENDING)
+  stripeId       String?
+  reference      String?         @unique
+  mobilePhone    String?
+  mobileOperator MobileOperator?
+  customerName   String?
+  adminNote      String?
+  validatedAt    DateTime?
+  user           User            @relation(fields: [userId], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("purchases")
+}
+
+enum PaymentMethod {
+  STRIPE
+  MOBILE_MONEY
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum MobileOperator {
+  M_PESA
+  AIRTEL
+  ORANGE
+}
+
+model Subscription {
+  id             String          @id @default(cuid())
+  userId         String
+  plan           String
+  amount         Float
+  paymentMethod  PaymentMethod
+  status         PaymentStatus   @default(PENDING)
+  stripeSubId    String?
+  mobilePhone    String?
+  mobileOperator MobileOperator?
+  startDate      DateTime?
+  endDate        DateTime?
+  user           User            @relation(fields: [userId], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@map("subscriptions")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String   @db.Text
+  price         Float
+  pricePhysical Float?
+  priceAudio    Float?
+  category    String
+  type        BookType @default(EBOOK)
+  stock       Int?
+  year        Int?
+  pages       Int?
+  audioDuration Int?     // duration in seconds
+  coverImage  String?
+  pdfFile     String?
+  epubFile    String?
+  audioFile   String?
+  published   Boolean  @default(true)
+  preOrder    Boolean  @default(false)
+  isMagazine  Boolean  @default(false)
+  releaseDate DateTime?
+  content     Json?
+  coAuthors   String?
+  authorId    String?
+  author      Author?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("books")
+}
+
+enum BookType {
+  EBOOK
+  PHYSICAL
+}
+
+model RevueIssue {
+  id          String   @id @default(cuid())
+  title       String
+  month       Int
+  year        Int
+  description String?  @db.Text
+  pdfFile     String?
+  epubFile    String?
+  coverImage  String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("revue_issues")
+}
+
+model Author {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  role      String   @default("Auteur")
+  bio       String?  @db.Text
+  photo     String?
+  facebook  String?
+  instagram String?
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("authors")
+}
+
+model Setting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model LoginHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  ip        String?
+  country   String?
+  city      String?
+  userAgent String?
+  success   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("login_history")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  adminId    String
+  adminEmail String
+  action     String
+  target     String?
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+  admin      User     @relation("AdminLogs", fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("audit_logs")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  date        DateTime
+  location    String?
+  imageUrl    String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("events")
+}

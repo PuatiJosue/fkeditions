@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FK Éditions — Maison d'édition à Kinshasa</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Caslon+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<script>
+  // Tweak defaults — must be a valid JSON block between the markers
+  window.FK_TWEAKS = /*EDITMODE-BEGIN*/{
+    "accent": "terracotta",
+    "font": "cormorant"
+  }/*EDITMODE-END*/;
+</script>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP UTILITY BAR
+     ============================================================ -->
+<div class="topbar" data-screen-label="Topbar">
+  <div class="container">
+    <span class="topbar-tagline">Maison d'édition indépendante — depuis 2020 à Kinshasa</span>
+    <div class="topbar-links">
+      <a href="#newsletter">✉ Newsletter</a>
+      <span class="sep"></span>
+      <a href="#contact">Contact</a>
+      <span class="sep"></span>
+      <a href="#manuscrit">Soumettre un manuscrit</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header" data-screen-label="Header">
+  <div class="container">
+    <a href="#" class="brand" aria-label="FK Éditions">
+      <span class="brand-mark">Fk</span>
+      <span class="brand-name">ÉDITIONS</span>
+    </a>
+    <nav class="nav">
+      <a href="#" class="active">Accueil</a>
+      <a href="#livres">Nos livres</a>
+      <a href="#auteurs">Auteurs</a>
+      <a href="#evenements">Événements</a>
+      <a href="#revue">Revue</a>
+      <a href="#magazine">Magazine</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Recherche">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1.5 11a2 2 0 0 1-2 1.7H9.5a2 2 0 0 1-2-1.7L6 7z"/><path d="M9 7V5a3 3 0 1 1 6 0v2"/></svg>
+      </button>
+      <button class="theme-toggle" data-theme-toggle aria-label="Basculer thème">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </span>
+        <span aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO — Carousel
+     ============================================================ -->
+<section class="hero" data-screen-label="01 Hero">
+  <div class="container">
+    <div class="hero-meta">
+      <span class="dot"></span>
+      <span data-hero-cat>Récit · Témoignage</span>
+      <span style="opacity:0.5">·</span>
+      <span>FK Éditions, Kinshasa — RDC</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-text">
+        <span class="kicker">À la une</span>
+        <h1 class="hero-title" data-hero-title>
+          <span class="line"><span>Des <em>histoires</em></span></span>
+          <span class="line"><span>qui marquent</span></span>
+          <span class="line"><span>les esprits.</span></span>
+        </h1>
+        <p class="hero-desc" data-hero-desc>
+          Maison d'édition indépendante engagée pour la littérature de qualité.
+          Une voix par laquelle auteurs et écrivains s'expriment et partagent
+          leurs expériences.
+        </p>
+        <div class="cta-row">
+          <a href="#livres" class="btn btn-primary">
+            <span>Découvrir nos livres</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#auteurs" class="btn btn-ghost">Nos auteurs</a>
+        </div>
+      </div>
+
+      <div class="hero-books">
+        <div class="hero-book is-active"
+             data-title="<span class='line'><span>Porteur</span></span><span class='line'><span>de <em>promesses</em></span></span>"
+             data-author="Fortune Khonde"
+             data-cat="Roman · Nouveauté"
+             data-desc="Un voyage intime au cœur de l'âme, là où se croisent l'espérance et le doute. Une œuvre marquante portée par une plume sensible et profonde.">
+          <div class="hero-book-cover">
+            <img src="https://fk-editions.com/uploads/books/cmpazzyp400059tjgtz8g10jx.jpg" alt="Porteur de promesses" loading="eager"
+                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #b4452a, #4d2515)'; this.parentElement.insertAdjacentHTML('beforeend','<div style=&quot;color:#fff;font-family:var(--serif);font-style:italic;font-size:32px;text-align:center;padding:40px;height:100%;display:flex;align-items:center;justify-content:center;&quot;>Porteur de promesses</div>');" />
+          </div>
+          <div class="hero-book-badge">10 $</div>
+        </div>
+
+        <div class="hero-book"
+             data-title="<span class='line'><span>Le <em>rap</em>,</span></span><span class='line'><span>une voie</span></span><span class='line'><span>d'évangile.</span></span>"
+             data-author="Fortune Khonde"
+             data-cat="Essai · Pré-commande"
+             data-desc="Une réflexion lumineuse sur la musique urbaine comme nouvelle voie d'évangélisation. Entre culture, foi et engagement.">
+          <div class="hero-book-cover">
+            <img src="https://fk-editions.com/images/books/le-rap.jpg" alt="Le rap, une autre voie d'évangélisation" loading="lazy"
+                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #2a3548, #0d1620)'; this.parentElement.insertAdjacentHTML('beforeend','<div style=&quot;color:#fff;font-family:var(--serif);font-style:italic;font-size:32px;text-align:center;padding:40px;height:100%;display:flex;align-items:center;justify-content:center;&quot;>Le rap, une autre voie d&apos;évangélisation</div>');" />
+          </div>
+          <div class="hero-book-badge">8 $</div>
+        </div>
+
+        <div class="hero-book"
+             data-title="<span class='line'><span>Elles ont</span></span><span class='line'><span>écrit</span></span><span class='line'><span><em>l'histoire.</em></span></span>"
+             data-author="Fortune Khonde"
+             data-cat="Documents · Témoignage"
+             data-desc="Hommage aux femmes qui ont façonné notre temps. Une fresque vibrante de courage, de mémoire et de transmission.">
+          <div class="hero-book-cover">
+            <img src="https://fk-editions.com/images/books/elles-ont-ecrit.jpg" alt="Elles ont écrit l'histoire" loading="lazy"
+                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #6b1f2b, #2d0a12)'; this.parentElement.insertAdjacentHTML('beforeend','<div style=&quot;color:#fff;font-family:var(--serif);font-style:italic;font-size:32px;text-align:center;padding:40px;height:100%;display:flex;align-items:center;justify-content:center;&quot;>Elles ont écrit l&apos;histoire</div>');" />
+          </div>
+          <div class="hero-book-badge">5 $</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-progress">
+      <div class="hero-progress-dots">
+        <div class="hero-dot is-active" data-dot="0"></div>
+        <div class="hero-dot" data-dot="1"></div>
+        <div class="hero-dot" data-dot="2"></div>
+      </div>
+      <div class="hero-counter"><b data-hero-counter-now>01</b> / 03</div>
+      <div class="hero-nav">
+        <button class="icon-btn" data-hero-prev aria-label="Précédent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="icon-btn" data-hero-next aria-label="Suivant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MARQUEE
+     ============================================================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Littérature&nbsp;<em class="star">✦</em>&nbsp;Récit&nbsp;<em class="star">✦</em>&nbsp;Essai&nbsp;<em class="star">✦</em>&nbsp;Témoignage&nbsp;<em class="star">✦</em>&nbsp;Poésie&nbsp;<em class="star">✦</em>&nbsp;Histoire&nbsp;<em class="star">✦</em>&nbsp;Jeunesse&nbsp;<em class="star">✦</em>&nbsp;Spiritualité&nbsp;<em class="star">✦</em></span>
+    <span>Littérature&nbsp;<em class="star">✦</em>&nbsp;Récit&nbsp;<em class="star">✦</em>&nbsp;Essai&nbsp;<em class="star">✦</em>&nbsp;Témoignage&nbsp;<em class="star">✦</em>&nbsp;Poésie&nbsp;<em class="star">✦</em>&nbsp;Histoire&nbsp;<em class="star">✦</em>&nbsp;Jeunesse&nbsp;<em class="star">✦</em>&nbsp;Spiritualité&nbsp;<em class="star">✦</em></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     NOS PARUTIONS (Nouveautés / À paraître / Bestsellers)
+     ============================================================ -->
+<section class="section" id="livres" data-screen-label="02 Nos parutions">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-head-left">
+        <span class="kicker">Catalogue</span>
+        <h2 class="section-title">Les livres de la <em class="serif-i">maison FK</em></h2>
+        <div class="section-tabs">
+          <button class="tab is-active" data-tab="new">Nouveautés</button>
+          <button class="tab" data-tab="upcoming">À paraître</button>
+          <button class="tab" data-tab="bestsellers">Bestsellers</button>
+        </div>
+      </div>
+      <a href="#" class="link-arrow">Voir tout le catalogue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="book-grid reveal-stagger" data-tab-content="new">
+      <article class="book-card">
+        <div class="book-card-cover-wrap">
+          <span class="book-badge">Nouveauté</span>
+          <span class="book-price">10 $</span>
+          <img src="https://fk-editions.com/uploads/books/cmpazzyp400059tjgtz8g10jx.jpg" alt="Porteur de promesses"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#b4452a,#4d2515)';" />
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">
+              Voir le livre
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="book-meta">
+          <span class="cat">Roman</span>
+          <span>Parution · Avril 2026</span>
+        </div>
+        <h3 class="book-title">Porteur de promesses</h3>
+        <p class="book-author">Fortune Khonde</p>
+      </article>
+
+      <article class="book-card">
+        <div class="book-card-cover-wrap">
+          <span class="book-badge preorder">Pré-commande</span>
+          <span class="book-price">8 $</span>
+          <img src="https://fk-editions.com/images/books/le-rap.jpg" alt="Le rap, une autre voie d'évangélisation"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#2a3548,#0d1620)';" />
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">
+              Pré-commander
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="book-meta">
+          <span class="cat">Essai</span>
+          <span>À paraître · Juin 2026</span>
+        </div>
+        <h3 class="book-title">Le rap, une autre voie d'évangélisation dans la musique</h3>
+        <p class="book-author">Fortune Khonde</p>
+      </article>
+
+      <article class="book-card">
+        <div class="book-card-cover-wrap">
+          <span class="book-badge">Best-seller</span>
+          <span class="book-price">5 $</span>
+          <img src="https://fk-editions.com/images/books/elles-ont-ecrit.jpg" alt="Elles ont écrit l'histoire"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#6b1f2b,#2d0a12)';" />
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">
+              Acheter le livre
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="book-meta">
+          <span class="cat">Documents</span>
+          <span>Parution · 2025</span>
+        </div>
+        <h3 class="book-title">Elles ont écrit l'histoire et l'histoire a parlé d'elles</h3>
+        <p class="book-author">Fortune Khonde</p>
+      </article>
+    </div>
+
+    <div class="book-grid reveal-stagger" data-tab-content="upcoming" style="display:none">
+      <article class="book-card">
+        <div class="book-card-cover-wrap">
+          <span class="book-badge preorder">À paraître</span>
+          <span class="book-price">8 $</span>
+          <img src="https://fk-editions.com/images/books/le-rap.jpg" alt="Le rap"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#2a3548,#0d1620)';" />
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">Découvrir<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+        <div class="book-meta">
+          <span class="cat">Essai</span>
+          <span>Juin 2026</span>
+        </div>
+        <h3 class="book-title">Le rap, une autre voie d'évangélisation</h3>
+        <p class="book-author">Fortune Khonde</p>
+      </article>
+    </div>
+
+    <div class="book-grid reveal-stagger" data-tab-content="bestsellers" style="display:none">
+      <article class="book-card">
+        <div class="book-card-cover-wrap">
+          <span class="book-badge">Best-seller</span>
+          <span class="book-price">5 $</span>
+          <img src="https://fk-editions.com/images/books/elles-ont-ecrit.jpg" alt="Elles ont écrit l'histoire"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#6b1f2b,#2d0a12)';" />
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">Acheter<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+        <div class="book-meta">
+          <span class="cat">Documents</span>
+          <span>2025</span>
+        </div>
+        <h3 class="book-title">Elles ont écrit l'histoire</h3>
+        <p class="book-author">Fortune Khonde</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LUMIÈRE SUR — Spotlight
+     ============================================================ -->
+<section class="spotlight" data-screen-label="03 Lumière sur">
+  <div class="container">
+    <div class="spotlight-grid">
+      <div class="spotlight-visual reveal">
+        <span class="spotlight-tag">Coup de cœur</span>
+        <img src="https://fk-editions.com/uploads/books/cmpazzyp400059tjgtz8g10jx.jpg" alt="Porteur de promesses"
+             onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#b4452a 0%, #4d2515 100%)';" />
+      </div>
+      <div class="spotlight-content reveal">
+        <span class="kicker">Lumière sur</span>
+        <h2>Porteur de <em>promesses</em></h2>
+        <p class="spotlight-quote">
+          « Un récit d'une rare sensibilité, où chaque page semble porter la mémoire
+          d'un peuple et la lumière d'un espoir. »
+        </p>
+        <div class="spotlight-byline">
+          <div class="spotlight-byline-avatar">
+            <img src="https://fk-editions.com/images/authors/fortune-khonde.jpg" alt="Fortune Khonde"
+                 onerror="this.style.display='none'; this.parentElement.style.background='var(--accent)';" />
+          </div>
+          <div class="spotlight-byline-text">
+            <div class="spotlight-byline-name">Fortune Khonde</div>
+            <div class="spotlight-byline-role">Auteur · Fondateur FK Éditions</div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary">
+          <span>En savoir plus</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HERITAGE — L'histoire commence à Kinshasa
+     ============================================================ -->
+<section class="heritage" data-screen-label="04 Heritage">
+  <div class="container">
+    <div class="heritage-grid">
+      <div class="heritage-year reveal">
+        2020
+        <small>L'année où tout commence</small>
+      </div>
+      <div class="heritage-text reveal">
+        <span class="kicker">Notre histoire</span>
+        <h2>L'histoire commence à <em>Kinshasa</em>, au cœur du Congo.</h2>
+        <p>
+          Fondée par Fortune Khonde, FK Éditions est née d'une conviction simple :
+          la littérature congolaise mérite ses propres voix, ses propres pages,
+          sa propre maison. Une maison où les manuscrits trouvent un foyer, où les
+          auteurs sont accompagnés avec exigence, et où chaque livre devient
+          un objet de transmission.
+        </p>
+        <p>
+          Cinq ans plus tard, nous accompagnons une nouvelle génération d'écrivains
+          dans leur cheminement. Récit, essai, témoignage, poésie : autant de formes
+          pour dire le monde tel qu'il est — et tel que nous le rêvons.
+        </p>
+        <a href="#" class="link-arrow" style="margin-top:24px;display:inline-flex">
+          Découvrir la maison
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     AUTEURS
+     ============================================================ -->
+<section class="authors" id="auteurs" data-screen-label="05 Auteurs">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-head-left">
+        <span class="kicker">Voix de la maison</span>
+        <h2 class="section-title">Nos <em class="serif-i">auteurs</em></h2>
+      </div>
+      <a href="#" class="link-arrow">Tous les auteurs
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="authors-grid reveal-stagger">
+      <article class="author-card">
+        <div class="author-portrait">
+          <img src="https://fk-editions.com/images/authors/fortune-khonde.jpg" alt="Fortune Khonde"
+               onerror="this.style.display='none'; this.parentElement.classList.add('author-placeholder'); this.parentElement.textContent='Fk';" />
+        </div>
+        <h3 class="author-name"><strong>Fortune</strong> Khonde</h3>
+        <p class="author-role">Auteur · Fondateur</p>
+      </article>
+
+      <article class="author-card">
+        <div class="author-portrait author-placeholder">FK</div>
+        <h3 class="author-name">L'auteur·rice <strong>en devenir</strong></h3>
+        <p class="author-role">Manuscrits ouverts</p>
+      </article>
+
+      <article class="author-card">
+        <div class="author-portrait author-placeholder">FK</div>
+        <h3 class="author-name">L'auteur·rice <strong>en devenir</strong></h3>
+        <p class="author-role">Manuscrits ouverts</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ÉVÉNEMENTS
+     ============================================================ -->
+<section class="events" id="evenements" data-screen-label="06 Événements">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-head-left">
+        <span class="kicker">Agenda</span>
+        <h2 class="section-title">Rencontrez nos <em class="serif-i">auteurs</em></h2>
+      </div>
+      <a href="#" class="link-arrow">Tous les événements
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="reveal-stagger">
+      <a href="#" class="event-card">
+        <div class="event-date">
+          <span class="day">01</span>
+          <span class="month">Juil. 2026</span>
+        </div>
+        <div class="event-info">
+          <h3>Séance dédicace — FK Éditions</h3>
+          <div class="event-loc">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Kinshasa, RDC
+          </div>
+          <p class="event-desc">Rencontrez les auteurs de FK Éditions lors de cette séance dédicace exceptionnelle. Une occasion unique d'échanger, de faire signer vos livres et de partager un moment privilégié avec l'équipe éditoriale.</p>
+        </div>
+        <span class="event-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+
+      <a href="#" class="event-card">
+        <div class="event-date">
+          <span class="day">12</span>
+          <span class="month">Sept. 2026</span>
+        </div>
+        <div class="event-info">
+          <h3>Lancement officiel — « Le rap, une autre voie »</h3>
+          <div class="event-loc">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Institut Français · Kinshasa
+          </div>
+          <p class="event-desc">Soirée de lancement avec lecture, table ronde sur la musique urbaine et la foi, et performance live d'artistes invités. Entrée libre dans la limite des places disponibles.</p>
+        </div>
+        <span class="event-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+
+      <a href="#" class="event-card">
+        <div class="event-date">
+          <span class="day">25</span>
+          <span class="month">Oct. 2026</span>
+        </div>
+        <div class="event-info">
+          <h3>Atelier d'écriture — Voix de demain</h3>
+          <div class="event-loc">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Espace FK · Gombe, Kinshasa
+          </div>
+          <p class="event-desc">Atelier d'écriture pour les jeunes auteur·rice·s de Kinshasa, animé par notre équipe éditoriale. Découvrez les ficelles du métier, du manuscrit à la publication.</p>
+        </div>
+        <span class="event-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DÉCOUVRIR — category marquees
+     ============================================================ -->
+<section class="discover" data-screen-label="07 Découvrir">
+  <div class="container">
+    <div class="reveal">
+      <span class="kicker">Explorer</span>
+      <h2 class="section-title">Découvrir par <em class="serif-i">thématique</em></h2>
+    </div>
+  </div>
+  <div class="discover-marquees">
+    <div class="discover-row">
+      <div class="discover-track">
+        <a href="#">Littérature</a><a href="#">Récit</a><a href="#">Essai</a><a href="#">Témoignage</a><a href="#">Poésie</a><a href="#">Histoire</a>
+        <a href="#">Littérature</a><a href="#">Récit</a><a href="#">Essai</a><a href="#">Témoignage</a><a href="#">Poésie</a><a href="#">Histoire</a>
+      </div>
+    </div>
+    <div class="discover-row">
+      <div class="discover-track">
+        <a href="#">Spiritualité</a><a href="#">Jeunesse</a><a href="#">Documents</a><a href="#">Biographie</a><a href="#">Théâtre</a><a href="#">Roman</a>
+        <a href="#">Spiritualité</a><a href="#">Jeunesse</a><a href="#">Documents</a><a href="#">Biographie</a><a href="#">Théâtre</a><a href="#">Roman</a>
+      </div>
+    </div>
+    <div class="discover-row">
+      <div class="discover-track">
+        <a href="#">Revue littéraire</a><a href="#">Magazine</a><a href="#">Numérique</a><a href="#">Audio</a><a href="#">Manuscrits</a><a href="#">Ateliers</a>
+        <a href="#">Revue littéraire</a><a href="#">Magazine</a><a href="#">Numérique</a><a href="#">Audio</a><a href="#">Manuscrits</a><a href="#">Ateliers</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER
+     ============================================================ -->
+<section class="newsletter" id="newsletter" data-screen-label="08 Newsletter">
+  <div class="container">
+    <div class="newsletter-inner reveal">
+      <span class="kicker">Restez informé·e</span>
+      <h2>Ne manquez <em>rien</em>.</h2>
+      <p>Inscrivez-vous à notre newsletter et recevez en avant-première nos actualités,
+         nouvelles parutions et événements à Kinshasa et ailleurs.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Votre adresse e-mail" required />
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p class="newsletter-fine">Une lettre par mois. Désinscription en un clic.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer" data-screen-label="Footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="brand">
+          <span class="brand-mark">Fk</span>
+          <span class="brand-name">ÉDITIONS</span>
+        </a>
+        <p>Maison d'édition indépendante basée à Kinshasa, engagée pour la littérature de qualité depuis 2020.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/fkeditions" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0 0 22 12z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/fkeditions" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+          <a href="https://whatsapp.com/channel/0029Vb8KostEawdvoq0VyX0S" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A10 10 0 0 0 3.6 16.1L2.1 22l6-1.6A10 10 0 1 0 20.5 3.5zm-3 13c-.3.8-1.5 1.5-2.1 1.6-.6.1-1.3.1-2.1-.1-.5-.2-1.1-.4-1.9-.7-3.3-1.4-5.5-4.8-5.7-5-.2-.2-1.3-1.8-1.3-3.4 0-1.6.9-2.4 1.2-2.7.3-.3.7-.4.9-.4h.6c.2 0 .5 0 .7.6.3.7 1 2.4 1.1 2.6.1.2.1.4 0 .6-.1.2-.2.4-.4.6-.2.2-.4.4-.5.6-.2.2-.3.4-.2.7.2.3.8 1.4 1.7 2.2 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.7-.2 1.4z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3a4.8 4.8 0 0 1-3-4.3h-3.4v13.1a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.4 6.2V8.7a8.2 8.2 0 0 0 4.7 1.5V6.8a4.8 4.8 0 0 1-1.7-.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#">Accueil</a></li>
+          <li><a href="#auteurs">Nos auteurs</a></li>
+          <li><a href="#livres">Acheter un livre</a></li>
+          <li><a href="#evenements">Événements</a></li>
+          <li><a href="#">Revue & Magazine</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Informations</h4>
+        <ul>
+          <li><a href="#">À propos</a></li>
+          <li><a href="#">Conditions de vente</a></li>
+          <li><a href="#">Politique de remboursement</a></li>
+          <li><a href="#">Nous contacter</a></li>
+          <li><a href="#">Soumettre un manuscrit</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Coordonnées</h4>
+        <ul>
+          <li><a href="tel:+243829082048">+243 829 082 048</a></li>
+          <li><a href="mailto:editionsfk@gmail.com">editionsfk@gmail.com</a></li>
+          <li><a href="#">Canal WhatsApp FK Éditions</a></li>
+          <li><a href="#">Messenger : fkeditions</a></li>
+          <li style="color:var(--ink-mute);font-family:var(--serif);font-style:italic;margin-top:8px">Kinshasa, RDC</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 FK Éditions. Tous droits réservés.</span>
+      <span><em>Fondée par Fortune Khonde</em> · Kinshasa, RDC</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     TWEAKS PANEL
+     ============================================================ -->
+<aside class="tweaks-panel" aria-label="Tweaks">
+  <div class="tweaks-header">
+    <strong>Tweaks</strong>
+    <button class="icon-btn" data-tweaks-close aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="tweaks-section">
+    <h4>Couleur d'accent</h4>
+    <div class="tweaks-swatches">
+      <div class="tweaks-swatch" data-c="terracotta" title="Terracotta"></div>
+      <div class="tweaks-swatch" data-c="burgundy" title="Burgundy"></div>
+      <div class="tweaks-swatch" data-c="forest" title="Forêt"></div>
+      <div class="tweaks-swatch" data-c="ink" title="Encre"></div>
+      <div class="tweaks-swatch" data-c="gold" title="Or"></div>
+    </div>
+  </div>
+  <div class="tweaks-section">
+    <h4>Typographie de titre</h4>
+    <div class="tweaks-radio-group">
+      <div class="tweaks-radio is-active" data-tweak-font="cormorant">Cormorant</div>
+      <div class="tweaks-radio" data-tweak-font="dm-serif">DM Serif</div>
+    </div>
+    <div class="tweaks-radio-group" style="margin-top:6px">
+      <div class="tweaks-radio" data-tweak-font="playfair">Playfair</div>
+      <div class="tweaks-radio" data-tweak-font="libre">Libre Caslon</div>
+    </div>
+  </div>
+</aside>
+
+<script src="main.js"></script>
+</body>
+</html>

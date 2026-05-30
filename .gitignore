@@ -1,0 +1,35 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# env files — NE JAMAIS commit les clés
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# debug
+npm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+/app/generated/prisma
+
+# contenu payant & uploads (gérés sur le serveur / S3, jamais dans git)
+/private
+/public/uploads
+
+# paquets de déploiement temporaires
+deploy-*.tar.gz
+GUIDE-S3.md
