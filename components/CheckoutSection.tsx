@@ -7,6 +7,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import MobileMoneyForm from '@/components/MobileMoneyForm'
 import Link from 'next/link'
+import { useTheme } from '@/lib/useTheme'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -32,6 +33,9 @@ function CardForm({ bookId, bookTitle, price, preOrder, releaseDate }: CardFormP
   const stripe = useStripe()
   const elements = useElements()
   const router = useRouter()
+  const { theme } = useTheme()
+  const cardText = theme === 'light' ? '#2a2118' : '#e8dcc8'
+  const cardPlaceholder = theme === 'light' ? '#9a8f7d' : '#6b6252'
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [clientSecret, setClientSecret] = useState('')
@@ -92,13 +96,14 @@ function CardForm({ bookId, bookTitle, price, preOrder, releaseDate }: CardFormP
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="border border-dark-4 bg-dark-3 px-4 py-3">
         <CardElement
+          key={theme}
           options={{
             style: {
               base: {
                 fontSize: '14px',
-                color: '#e8dcc8',
+                color: cardText,
                 fontFamily: 'monospace',
-                '::placeholder': { color: '#6b6252' },
+                '::placeholder': { color: cardPlaceholder },
               },
               invalid: { color: '#f87171' },
             },

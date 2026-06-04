@@ -17,7 +17,7 @@ export interface LivreItem {
   year?: number | null
 }
 
-const CATEGORIES = ['Tous', '🎧 Audio', 'Roman', 'Jeunesse', 'Essai', 'Poésie', 'Thriller', 'Fantasy', 'Biographie', 'Portrait', 'Histoire', 'Géographie', 'Politique', 'Pratique', 'Cuisine', 'Éducation']
+const CATEGORIES = ['Tous', '🎧 Audio', 'Roman', 'Jeunesse', 'Essai', 'Poésie', 'Thriller', 'Fantasy', 'Biographie', 'Portrait', 'Histoire', 'Géographie', 'Politique', 'Pratique', 'Cuisine', 'Éducation', 'Spiritualité']
 
 function formatReleaseLabel(book: LivreItem): string {
   if (book.releaseDate) {

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import SectionTitle from '@/components/SectionTitle'
+import { useTheme } from '@/lib/useTheme'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -76,6 +77,9 @@ const FEATURES = [
 function SubscriptionCardForm({ planId, price, onSuccess }: { planId: string; price: number; onSuccess: () => void }) {
   const stripe = useStripe()
   const elements = useElements()
+  const { theme } = useTheme()
+  const cardText = theme === 'light' ? '#2a2118' : '#e8dcc8'
+  const cardPlaceholder = theme === 'light' ? '#9a8f7d' : '#6b6252'
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [clientSecret, setClientSecret] = useState('')
@@ -114,7 +118,7 @@ function SubscriptionCardForm({ planId, price, onSuccess }: { planId: string; pr
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <div className="border border-dark-4 bg-dark-2 px-3 py-2.5">
-        <CardElement options={{ style: { base: { fontSize: '13px', color: '#e8dcc8', fontFamily: 'monospace', '::placeholder': { color: '#6b6252' } }, invalid: { color: '#f87171' } } }} />
+        <CardElement key={theme} options={{ style: { base: { fontSize: '13px', color: cardText, fontFamily: 'monospace', '::placeholder': { color: cardPlaceholder } }, invalid: { color: '#f87171' } } }} />
       </div>
       {error && <p className="text-[10px] text-red-400 border border-red-800/40 px-2 py-1.5">{error}</p>}
       <button type="submit" disabled={!stripe || !clientSecret || loading}

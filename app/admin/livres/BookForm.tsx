@@ -17,7 +17,7 @@ interface BookData {
 
 interface Props { authors: Author[]; initial?: Partial<BookData> }
 
-const CATEGORIES = ['Roman', 'Jeunesse', 'Essai', 'Poésie', 'Thriller', 'Fantasy', 'Biographie', 'Portrait', 'Histoire', 'Géographie', 'Politique', 'Pratique', 'Cuisine', 'Éducation', 'Magazine', 'Autre']
+const CATEGORIES = ['Roman', 'Jeunesse', 'Essai', 'Poésie', 'Thriller', 'Fantasy', 'Biographie', 'Portrait', 'Histoire', 'Géographie', 'Politique', 'Pratique', 'Cuisine', 'Éducation', 'Spiritualité', 'Magazine', 'Autre']
 
 export default function BookForm({ authors, initial }: Props) {
   const router = useRouter()
