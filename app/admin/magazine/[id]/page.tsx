@@ -41,6 +41,7 @@ export default async function EditMagazinePage({ params }: Props) {
           isMagazine: book.isMagazine,
           featuredName: book.featuredName ?? '',
           featuredImage: book.featuredImage ?? '',
+          featuredEvent: book.featuredEvent ?? '',
           releaseDate: book.releaseDate ? book.releaseDate.toISOString().split('T')[0] : '',
           authorId: book.authorId ?? '',
           coAuthors: book.coAuthors ?? '',

@@ -150,6 +150,7 @@ model Book {
   isMagazine  Boolean  @default(false)
   featuredImage String?
   featuredName  String?
+  featuredEvent String?
   releaseDate DateTime?
   content     Json?
   coAuthors   String?

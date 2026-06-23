@@ -42,6 +42,7 @@ export async function POST(req: Request) {
       preOrder: data.preOrder ?? false,
       isMagazine: data.isMagazine ?? false,
       featuredName: data.featuredName || null,
+      featuredEvent: data.featuredEvent || null,
       releaseDate: data.releaseDate ? new Date(data.releaseDate) : null,
       content: data.content ?? null,
       coAuthors: data.coAuthors || null,

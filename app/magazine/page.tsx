@@ -208,7 +208,13 @@ export default async function MagazinePage() {
                       <h3 style={{ fontFamily: 'var(--serif)', fontSize: 22, lineHeight: 1.15, color: '#fff', margin: 0 }}>
                         {name}
                       </h3>
-                      <span style={{ display: 'inline-block', marginTop: 6, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#e6c07b' }}>
+                      {mag.featuredEvent && (
+                        <p style={{ margin: '8px 0 0', fontSize: 12, lineHeight: 1.4, color: '#fff', opacity: 0.92, display: 'flex', alignItems: 'flex-start', gap: 6 }}>
+                          <span aria-hidden style={{ flexShrink: 0 }}>📅</span>
+                          <span>{mag.featuredEvent}</span>
+                        </p>
+                      )}
+                      <span style={{ display: 'inline-block', marginTop: 8, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#e6c07b' }}>
                         Découvrir le magazine →
                       </span>
                     </div>

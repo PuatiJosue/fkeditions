@@ -13,7 +13,7 @@ interface BookData {
   published: boolean
   preOrder: boolean; releaseDate: string; authorId: string; coAuthors: string
   isMagazine: boolean
-  featuredName: string; featuredImage: string
+  featuredName: string; featuredImage: string; featuredEvent: string
 }
 
 interface Props { authors: Author[]; initial?: Partial<BookData> }
@@ -53,6 +53,7 @@ export default function BookForm({ authors, initial }: Props) {
     coAuthors: initial?.coAuthors ?? '',
     isMagazine: initial?.isMagazine ?? false,
     featuredName: initial?.featuredName ?? '', featuredImage: initial?.featuredImage ?? '',
+    featuredEvent: initial?.featuredEvent ?? '',
   })
 
   const set = (key: keyof BookData, value: string | boolean) => setForm((f) => ({ ...f, [key]: value }))
@@ -247,6 +248,12 @@ export default function BookForm({ authors, initial }: Props) {
             <label className={lbl}>Nom du joueur / club</label>
             <input type="text" value={form.featuredName} onChange={(e) => set('featuredName', e.target.value)}
               placeholder="ex : Lionel Messi" className={`${cls} placeholder:text-cream-muted/40`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={lbl}>Rencontre / événement (optionnel)</label>
+            <input type="text" value={form.featuredEvent} onChange={(e) => set('featuredEvent', e.target.value)}
+              placeholder="ex : Interview prévue le 15 juillet 2026" className={`${cls} placeholder:text-cream-muted/40`} />
+            <p className="text-[11px] text-cream-muted/60">Affiché en bas de la photo dans la galerie.</p>
           </div>
           <div className="flex flex-col gap-2">
             <label className={lbl}>Photo du joueur / club</label>
