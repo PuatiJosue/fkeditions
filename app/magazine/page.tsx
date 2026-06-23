@@ -161,72 +161,60 @@ export default async function MagazinePage() {
             <div
               style={{
                 display: 'grid',
-                gap: 28,
-                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: 24,
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
               }}
             >
-              {magazines.map((mag) => (
-                <div
-                  key={mag.id}
-                  style={{
-                    background: 'var(--bg-elev)',
-                    border: '1px solid var(--line)',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '3 / 4', background: 'var(--line)' }}>
-                    {mag.coverImage ? (
+              {magazines.map((mag) => {
+                const photo = mag.featuredImage || mag.coverImage
+                const name = mag.featuredName || mag.title
+                return (
+                  <Link
+                    key={mag.id}
+                    href={`/livres/${mag.slug}`}
+                    style={{
+                      position: 'relative',
+                      display: 'block',
+                      aspectRatio: '3 / 4',
+                      overflow: 'hidden',
+                      border: '1px solid var(--line)',
+                      background: 'var(--line)',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={mag.coverImage}
-                        alt={mag.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
+                      <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                       <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-mute)', fontFamily: 'var(--serif)', fontStyle: 'italic' }}>
                         FK Magazine
                       </div>
                     )}
-                  </div>
-                  <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
-                    <span className="kicker" style={{ fontSize: 11 }}>
-                      {mag.preOrder ? 'Pré-commande' : 'Magazine'}{mag.year ? ` · ${mag.year}` : ''}
-                    </span>
-                    <h3 style={{ fontFamily: 'var(--serif)', fontSize: 20, lineHeight: 1.25, color: 'var(--ink)' }}>
-                      {mag.title}
-                    </h3>
-                    {(mag.author?.name || mag.coAuthors) && (
-                      <p style={{ fontSize: 12, color: 'var(--ink-mute)' }}>{mag.author?.name ?? mag.coAuthors}</p>
-                    )}
-                    {mag.description && (
-                      <p
-                        style={{
-                          fontSize: 14,
-                          lineHeight: 1.6,
-                          color: 'var(--ink-soft)',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {mag.description}
-                      </p>
-                    )}
-                    <div style={{ marginTop: 'auto', paddingTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                      <span style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, color: 'var(--accent)' }}>
-                        {mag.price} $
+
+                    {mag.preOrder && (
+                      <span style={{ position: 'absolute', top: 12, left: 12, background: 'var(--accent)', color: '#fff', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 8px' }}>
+                        Pré-commande
                       </span>
-                      <Link href={`/livres/${mag.slug}`} className="btn btn-primary" style={{ justifyContent: 'center' }}>
-                        <span>{mag.preOrder ? 'Pré-commander' : 'Découvrir'}</span>
-                        <span className="shimmer" />
-                      </Link>
+                    )}
+
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: 0, right: 0, bottom: 0,
+                        padding: '48px 16px 16px',
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.15) 70%, rgba(0,0,0,0))',
+                      }}
+                    >
+                      <h3 style={{ fontFamily: 'var(--serif)', fontSize: 22, lineHeight: 1.15, color: '#fff', margin: 0 }}>
+                        {name}
+                      </h3>
+                      <span style={{ display: 'inline-block', marginTop: 6, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#e6c07b' }}>
+                        Découvrir le magazine →
+                      </span>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>

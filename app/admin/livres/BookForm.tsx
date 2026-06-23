@@ -13,6 +13,7 @@ interface BookData {
   published: boolean
   preOrder: boolean; releaseDate: string; authorId: string; coAuthors: string
   isMagazine: boolean
+  featuredName: string; featuredImage: string
 }
 
 interface Props { authors: Author[]; initial?: Partial<BookData> }
@@ -30,6 +31,9 @@ export default function BookForm({ authors, initial }: Props) {
   const audioInputRef = useRef<HTMLInputElement>(null)
   const [coverFile, setCoverFile] = useState<File | null>(null)
   const [coverPreview, setCoverPreview] = useState(initial?.coverImage ?? '')
+  const featuredInputRef = useRef<HTMLInputElement>(null)
+  const [featuredFile, setFeaturedFile] = useState<File | null>(null)
+  const [featuredPreview, setFeaturedPreview] = useState(initial?.featuredImage ?? '')
   const [epubFile, setEpubFile] = useState<File | null>(null)
   const [epubName, setEpubName] = useState(initial?.epubFile ? initial.epubFile.split('/').pop() ?? '' : '')
   const [audioFile, setAudioFile] = useState<File | null>(null)
@@ -48,6 +52,7 @@ export default function BookForm({ authors, initial }: Props) {
     releaseDate: initial?.releaseDate ?? '', authorId: initial?.authorId ?? '',
     coAuthors: initial?.coAuthors ?? '',
     isMagazine: initial?.isMagazine ?? false,
+    featuredName: initial?.featuredName ?? '', featuredImage: initial?.featuredImage ?? '',
   })
 
   const set = (key: keyof BookData, value: string | boolean) => setForm((f) => ({ ...f, [key]: value }))
@@ -60,6 +65,11 @@ export default function BookForm({ authors, initial }: Props) {
   function onCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return
     setCoverFile(file); setCoverPreview(URL.createObjectURL(file))
+  }
+
+  function onFeaturedChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]; if (!file) return
+    setFeaturedFile(file); setFeaturedPreview(URL.createObjectURL(file))
   }
 
   function onEpubChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -97,6 +107,10 @@ export default function BookForm({ authors, initial }: Props) {
       if (coverFile) {
         setUploadStatus('Upload de la couverture…')
         await fetch(`/api/admin/books/${bookId}/cover`, { method: 'POST', headers: { 'Content-Type': coverFile.type }, body: coverFile })
+      }
+      if (featuredFile) {
+        setUploadStatus('Upload de la photo vedette…')
+        await fetch(`/api/admin/books/${bookId}/featured`, { method: 'POST', headers: { 'Content-Type': featuredFile.type }, body: featuredFile })
       }
       if (epubFile) {
         setUploadStatus('Upload du fichier ePub…')
@@ -224,6 +238,35 @@ export default function BookForm({ authors, initial }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Magazine : vedette (joueur / club) affichée dans la galerie /magazine */}
+      {form.isMagazine && (
+        <div className="flex flex-col gap-3 border border-gold/30 bg-gold/5 p-4">
+          <p className="text-xs text-gold uppercase tracking-widest">Galerie Magazine — Vedette</p>
+          <div className="flex flex-col gap-1">
+            <label className={lbl}>Nom du joueur / club</label>
+            <input type="text" value={form.featuredName} onChange={(e) => set('featuredName', e.target.value)}
+              placeholder="ex : Lionel Messi" className={`${cls} placeholder:text-cream-muted/40`} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className={lbl}>Photo du joueur / club</label>
+            <div className="flex gap-4 items-start">
+              {featuredPreview && (
+                <div className="relative w-16 h-20 shrink-0 border border-dark-4 overflow-hidden">
+                  <Image src={featuredPreview} alt="Vedette" fill className="object-cover" />
+                </div>
+              )}
+              <div className="flex-1">
+                <input ref={featuredInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={onFeaturedChange} className="hidden" />
+                <button type="button" onClick={() => featuredInputRef.current?.click()} className={pickBtn}>
+                  {featuredFile ? featuredFile.name : featuredPreview ? 'Changer la photo' : 'Choisir la photo de la vedette'}
+                </button>
+                <p className="text-[11px] text-cream-muted/60 mt-1">Affichée dans la galerie de l&apos;espace Magazine. Si vide, on utilise la couverture.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ePub upload */}
       {form.type === 'EBOOK' && (

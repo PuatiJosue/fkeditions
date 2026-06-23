@@ -148,6 +148,8 @@ model Book {
   published   Boolean  @default(true)
   preOrder    Boolean  @default(false)
   isMagazine  Boolean  @default(false)
+  featuredImage String?
+  featuredName  String?
   releaseDate DateTime?
   content     Json?
   coAuthors   String?
