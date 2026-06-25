@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { groupMagazines } from '@/lib/magazine'
 
+export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Espace Magazine — FK Éditions' }
 
 export default async function MagazinePage() {
