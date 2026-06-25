@@ -12,7 +12,7 @@ interface BookData {
   pages: string; audioDuration: string; coverImage: string; pdfFile: string; epubFile: string; audioFile: string
   published: boolean
   preOrder: boolean; releaseDate: string; authorId: string; coAuthors: string
-  isMagazine: boolean
+  isMagazine: boolean; tier: string
   featuredName: string; featuredImage: string; featuredEvent: string
 }
 
@@ -51,7 +51,7 @@ export default function BookForm({ authors, initial }: Props) {
     published: initial?.published ?? true, preOrder: initial?.preOrder ?? false,
     releaseDate: initial?.releaseDate ?? '', authorId: initial?.authorId ?? '',
     coAuthors: initial?.coAuthors ?? '',
-    isMagazine: initial?.isMagazine ?? false,
+    isMagazine: initial?.isMagazine ?? false, tier: initial?.tier ?? '',
     featuredName: initial?.featuredName ?? '', featuredImage: initial?.featuredImage ?? '',
     featuredEvent: initial?.featuredEvent ?? '',
   })
@@ -248,6 +248,16 @@ export default function BookForm({ authors, initial }: Props) {
             <label className={lbl}>Nom du joueur / club</label>
             <input type="text" value={form.featuredName} onChange={(e) => set('featuredName', e.target.value)}
               placeholder="ex : Lionel Messi" className={`${cls} placeholder:text-cream-muted/40`} />
+            <p className="text-[11px] text-cream-muted/60">Les éditions Premium et Gold d&apos;un même joueur doivent porter <strong className="text-cream-dim">exactement le même nom</strong> pour être regroupées sur la même page.</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={lbl}>Niveau (édition)</label>
+            <select value={form.tier} onChange={(e) => set('tier', e.target.value)} className={cls}>
+              <option value="">— Aucun (édition unique) —</option>
+              <option value="PREMIUM">Premium</option>
+              <option value="GOLD">Gold</option>
+            </select>
+            <p className="text-[11px] text-cream-muted/60">Détermine le badge et l&apos;ordre d&apos;affichage sur la page de choix (Premium puis Gold).</p>
           </div>
           <div className="flex flex-col gap-1">
             <label className={lbl}>Rencontre / événement (optionnel)</label>

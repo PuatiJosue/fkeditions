@@ -148,6 +148,7 @@ model Book {
   published   Boolean  @default(true)
   preOrder    Boolean  @default(false)
   isMagazine  Boolean  @default(false)
+  tier        MagazineTier?
   featuredImage String?
   featuredName  String?
   featuredEvent String?
@@ -165,6 +166,11 @@ model Book {
 enum BookType {
   EBOOK
   PHYSICAL
+}
+
+enum MagazineTier {
+  PREMIUM
+  GOLD
 }
 
 model RevueIssue {

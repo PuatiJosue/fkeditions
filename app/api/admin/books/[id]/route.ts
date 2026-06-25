@@ -33,6 +33,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       published: data.published ?? true,
       preOrder: data.preOrder ?? false,
       isMagazine: data.isMagazine ?? false,
+      tier: data.tier || null,
       featuredName: data.featuredName || null,
       featuredEvent: data.featuredEvent || null,
       releaseDate: data.releaseDate ? new Date(data.releaseDate) : null,

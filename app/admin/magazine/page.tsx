@@ -40,9 +40,20 @@ export default async function AdminMagazinePage() {
             {magazines.map((mag) => (
               <tr key={mag.id} className="border-b border-dark-4 hover:bg-dark-4/30 transition-colors">
                 <td className="px-4 py-3">
-                  <p className="text-cream-dim font-medium max-w-xs truncate">{mag.title}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-cream-dim font-medium max-w-xs truncate">{mag.title}</p>
+                    {mag.tier && (
+                      <span className={`px-1.5 py-0.5 text-[9px] uppercase tracking-wide ${
+                        mag.tier === 'GOLD'
+                          ? 'bg-gold/15 text-gold border border-gold/40'
+                          : 'bg-dark-4 text-cream-muted border border-dark-4'
+                      }`}>
+                        {mag.tier === 'GOLD' ? 'Gold' : 'Premium'}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-cream-muted text-[10px] mt-0.5">
-                    {mag.preOrder ? 'Pré-commande' : mag.category}
+                    {mag.featuredName ? `${mag.featuredName} · ` : ''}{mag.preOrder ? 'Pré-commande' : mag.category}
                   </p>
                 </td>
                 <td className="px-4 py-3">

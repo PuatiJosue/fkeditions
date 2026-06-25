@@ -39,6 +39,7 @@ export default async function EditMagazinePage({ params }: Props) {
           published: book.published,
           preOrder: book.preOrder,
           isMagazine: book.isMagazine,
+          tier: book.tier ?? '',
           featuredName: book.featuredName ?? '',
           featuredImage: book.featuredImage ?? '',
           featuredEvent: book.featuredEvent ?? '',
