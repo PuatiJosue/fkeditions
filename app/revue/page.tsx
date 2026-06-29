@@ -43,37 +43,6 @@ function buildPlans(p: typeof DEFAULT_PRICES) {
   ]
 }
 
-const COLLABORATEURS = [
-  {
-    name: 'Josué Kawela Kandonda', photo: '/images/collaborateur/JOSUE%20KAWELA%20KANDONDA.jpeg',
-    subtitle: 'Kinshasa, RDC · né le 20 mars',
-    values: ['Foi', 'Travail', 'Intégrité', 'Service'],
-    quote: 'Animé par des valeurs de foi, de travail, d\'intégrité et de service, il poursuit son engagement avec la conviction que chaque action porte en elle le pouvoir de transformer des vies.',
-    bio: [
-      'Né à Kinshasa le 20 mars, Josué Kawela Kandonda est docteur en sciences pharmaceutiques, logisticien et entrepreneur congolais engagé dans le développement communautaire, l\'innovation et la promotion du leadership des jeunes en RDC.',
-      'Doté d\'un profil multidisciplinaire alliant sciences de la santé, gestion et stratégie organisationnelle, il évolue à l\'intersection de la pharmacie, de l\'entrepreneuriat et de l\'action sociale.',
-      'Président de la structure Mbongwana, il œuvre pour inspirer une jeunesse ambitieuse. Il occupe également le poste de CFO au sein de l\'entreprise Galactik et est administrateur chez FK Éditions.',
-    ],
-  },
-  {
-    name: 'Alpha Lutete', photo: '/images/collaborateur/ALPHA%20LUTETE.jpeg',
-    subtitle: '« Le Thérapeute du Peuple »',
-    values: [],
-    quote: 'La santé des uns ne va pas sans celle des autres et de leur environnement.',
-    bio: [
-      'Alpha Lutete, connu sous le pseudonyme « Le Thérapeute du Peuple », est pharmacien d\'officine de formation et de cœur. Pour lui, bien soigner, c\'est d\'abord bien utiliser ce que l\'on a entre les mains.',
-      'Fondateur du groupe LKA Empire, il est Vice-Président du club « Une Santé RDC » (One Health RDC) et membre de la cellule santé publique de l\'ANep.',
-      'Conférencier et écrivain, il utilise la parole et l\'écrit pour vulgariser les bonnes pratiques et faire du bon usage du médicament le premier geste de santé publique.',
-    ],
-  },
-]
-
-const FEATURES = [
-  { title: 'Articles exclusifs', desc: 'Essais littéraires, critiques de livres et découvertes culturelles.', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
-  { title: "Interviews d'auteurs", desc: 'Rencontres exclusives avec nos auteurs et personnalités du monde littéraire.', icon: 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z' },
-  { title: 'Coulisses éditoriales', desc: "Découvrez le processus de création et la vie de notre maison d'édition.", icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
-]
-
 function SubscriptionCardForm({ planId, price, onSuccess }: { planId: string; price: number; onSuccess: () => void }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -235,78 +204,6 @@ function RevueContent() {
           <div className="mb-8 bg-yellow-900/20 border border-yellow-600/30 text-yellow-400 text-sm px-5 py-4 text-center">Paiement annulé. Vous pouvez réessayer à tout moment.</div>
         )}
 
-
-        {/* Numéro 1 */}
-        <div className="mb-16 bg-dark-3 border border-dark-4 overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="relative aspect-[3/4] md:aspect-auto min-h-[400px] bg-dark-4">
-              <img src="/images/revue/sante-essentielle.jpg" alt="Santé Essentielle — Numéro 1" className="w-full h-full object-cover" />
-              <div className="absolute top-4 left-4 bg-gold text-dark text-xs font-bold uppercase tracking-widest px-3 py-1">Numéro 1</div>
-            </div>
-            <div className="p-8 md:p-10 flex flex-col justify-center gap-5">
-              <div>
-                <p className="text-xs text-gold uppercase tracking-widest mb-2">Nouveau projet</p>
-                <h2 className="font-serif text-3xl text-cream leading-tight">Santé Essentielle</h2>
-                <p className="text-xs text-cream-muted mt-1">Par Josué Kawela Kandonda & Alpha Lutete</p>
-              </div>
-              <div className="w-12 h-px bg-gold/40" />
-              <p className="text-sm text-cream-dim leading-relaxed">
-                Nous sommes fiers de vous dévoiler notre tout nouveau projet : <strong className="text-cream">La Revue Santé Essentielle</strong> !
-                Parce que comprendre son corps est le premier pas vers une vie meilleure, nous avons créé ce rendez-vous unique.
-              </p>
-              <p className="text-sm text-gold font-medium">Rejoignez l&apos;aventure — l&apos;aventure commence maintenant !</p>
-              <button onClick={() => document.getElementById('abonnements')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gold hover:bg-gold-light text-dark font-semibold py-3 px-6 text-xs uppercase tracking-widest transition-colors self-start">
-                S&apos;abonner maintenant
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Collaborateurs */}
-        <div className="mb-16">
-          <div className="mb-8 text-center">
-            <SectionTitle label="L'équipe" center />
-            <h2 className="font-serif text-2xl text-cream mt-3">Les collaborateurs de Santé Essentielle</h2>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            {COLLABORATEURS.map((c) => (
-              <div key={c.name} className="bg-dark-3 border border-dark-4 overflow-hidden max-w-sm w-full sm:w-auto">
-                <div className="relative aspect-[4/5] bg-dark-4">
-                  <img src={c.photo} alt={c.name} className="w-full h-full object-cover object-top" />
-                </div>
-                <div className="p-6">
-                  <p className="text-xs text-gold uppercase tracking-widest mb-1">Collaborateur</p>
-                  <h3 className="font-serif text-xl text-cream mb-0.5">{c.name}</h3>
-                  <p className="text-xs text-cream-muted mb-4">{c.subtitle}</p>
-                  <div className="w-10 h-px bg-gold/40 mb-4" />
-                  {c.bio.map((p, i) => <p key={i} className="text-xs text-cream-dim leading-relaxed mb-3">{p}</p>)}
-                  <p className="text-xs text-gold italic leading-relaxed">&ldquo;{c.quote}&rdquo;</p>
-                  {c.values.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {c.values.map((v) => <span key={v} className="text-xs border border-gold/30 text-gold/80 px-2 py-0.5">{v}</span>)}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="mb-16 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="bg-dark-3 border border-dark-4 p-6 flex gap-4">
-              <div className="text-gold shrink-0 mt-0.5">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={f.icon} /></svg>
-              </div>
-              <div>
-                <h3 className="font-serif text-base text-cream mb-1.5">{f.title}</h3>
-                <p className="text-xs text-cream-muted leading-relaxed">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* Plans */}
         <div id="abonnements" className="mb-10 text-center">
