@@ -32,16 +32,36 @@ const DEFAULT_OPERATORS = buildOperators('0829082048', '0991316128')
 
 interface RevueIssue { id: string; title: string; month: number; year: number; description: string | null; pdfFile: string | null; epubFile: string | null }
 
-const DEFAULT_PRICES = { plan_1m_price: 4, plan_3m_price: 8, plan_6m_price: 16, plan_12m_price: 20 }
-
-function buildPlans(p: typeof DEFAULT_PRICES) {
-  return [
-    { id: 'mensuel',     duration: '1 mois',  price: p.plan_1m_price,  perMonth: p.plan_1m_price,                   features: ['Tous les numéros du mois', 'Accès mobile et desktop'] },
-    { id: 'trimestriel', duration: '3 mois',  price: p.plan_3m_price,  perMonth: +(p.plan_3m_price / 3).toFixed(2), features: ['Tous les numéros du trimestre', 'Archives complètes', 'Accès mobile et desktop'], popular: true, savings: `-${Math.round((1 - p.plan_3m_price / (p.plan_1m_price * 3)) * 100)}%` },
-    { id: 'semestriel',  duration: '6 mois',  price: p.plan_6m_price,  perMonth: +(p.plan_6m_price / 6).toFixed(2), features: ['Tous les numéros du semestre', 'Archives complètes', 'Accès mobile et desktop', 'Newsletter exclusive'], savings: `-${Math.round((1 - p.plan_6m_price / (p.plan_1m_price * 6)) * 100)}%` },
-    { id: 'annuel',      duration: '12 mois', price: p.plan_12m_price, perMonth: +(p.plan_12m_price / 12).toFixed(2), features: ["Tous les numéros de l'année", 'Archives complètes', 'Accès mobile et desktop', 'Newsletter exclusive', 'Accès anticipé aux nouveautés'], savings: `-${Math.round((1 - p.plan_12m_price / (p.plan_1m_price * 12)) * 100)}%`, best: true },
-  ]
-}
+/**
+ * Formules FLYSYS — chaque abonnement donne accès à l'exclusivité des contenus
+ * pendant 1 mois entier. Les prix DOIVENT rester alignés avec les routes de
+ * paiement côté serveur (app/api/checkout/**), qui font foi pour le montant facturé.
+ */
+const PLANS = [
+  {
+    id: 'standard',
+    name: 'Standard',
+    price: 5,
+    tagline: 'Pour bien démarrer',
+    features: ['Accès à tous les cours', 'Exercices pratiques', 'Accès mobile et ordinateur'],
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: 10,
+    tagline: 'Le plus complet',
+    features: ['Accès à tous les cours', 'Exercices pratiques', 'Analyses détaillées', 'Accès mobile et ordinateur'],
+    popular: true,
+  },
+  {
+    id: 'flysys_x',
+    name: 'FLYSYS X',
+    price: 30,
+    tagline: 'Universités & institutions',
+    features: ['Cours, exercices et analyses', 'Pensé pour les établissements', 'Accompagnement dédié', 'Accès mobile et ordinateur'],
+    best: true,
+  },
+]
 
 function SubscriptionCardForm({ planId, price, onSuccess }: { planId: string; price: number; onSuccess: () => void }) {
   const stripe = useStripe()
@@ -106,8 +126,7 @@ function RevueContent() {
   const successParam = searchParams.get('success')
   const cancelledParam = searchParams.get('cancelled')
 
-  const [prices, setPrices] = useState(DEFAULT_PRICES)
-  const plans = buildPlans(prices)
+  const plans = PLANS
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [payTab, setPayTab] = useState<'card' | 'mm'>('card')
   const [mmPhone, setMmPhone] = useState('')
@@ -121,7 +140,6 @@ function RevueContent() {
 
   useEffect(() => {
     fetch('/api/settings').then((r) => r.json()).then((data) => {
-      if (data.plan_1m_price) setPrices({ plan_1m_price: parseFloat(data.plan_1m_price), plan_3m_price: parseFloat(data.plan_3m_price), plan_6m_price: parseFloat(data.plan_6m_price), plan_12m_price: parseFloat(data.plan_12m_price) })
       setOperators(buildOperators(data.mpesa_number || '0829082048', data.airtel_number || '0991316128'))
     }).catch(() => {})
   }, [])
@@ -132,7 +150,7 @@ function RevueContent() {
   }, [session, successParam])
 
   function handleSubscribe(planId: string) {
-    if (!session) { router.push('/login?callbackUrl=/revue'); return }
+    if (!session) { router.push('/login?callbackUrl=/flysys'); return }
     setMmError('')
     setMmReference('')
     setMmPhone('')
@@ -172,9 +190,9 @@ function RevueContent() {
         style={{ paddingTop: 'clamp(60px, 8vh, 100px)', paddingBottom: 'clamp(40px, 6vh, 60px)' }}
       >
         <div className="fk-container" style={{ textAlign: 'center' }}>
-          <span className="kicker" style={{ justifyContent: 'center' }}>Revue FK Éditions</span>
+          <span className="kicker" style={{ justifyContent: 'center' }}>FK Éditions présente</span>
           <h1 className="section-title">
-            La <em className="serif-i">Revue</em>
+            <em className="serif-i">FLYSYS</em>
           </h1>
           <p
             style={{
@@ -187,9 +205,9 @@ function RevueContent() {
               marginRight: 'auto',
             }}
           >
-            Bienvenue dans notre cabinet de curiosités contemporain. Chaque revue est un voyage,
-            chaque magazine est une escale. Au fil des pages, nous donnons la parole aux esprits
-            libres, aux plumes audacieuses et aux regards qui éclairent notre monde.
+            Plateforme d&apos;apprentissage, de cours et de développement.
+            Choisissez votre formule et accédez à l&apos;exclusivité des contenus
+            pendant <strong style={{ color: 'var(--ink)' }}>1 mois entier</strong>.
           </p>
         </div>
       </section>
@@ -198,7 +216,7 @@ function RevueContent() {
 
         {/* Banners */}
         {(successParam === '1' || subSuccess) && (
-          <div className="mb-8 bg-green-900/30 border border-green-600/40 text-green-400 text-sm px-5 py-4 text-center">Abonnement activé ! Vos numéros sont disponibles ci-dessous.</div>
+          <div className="mb-8 bg-green-900/30 border border-green-600/40 text-green-400 text-sm px-5 py-4 text-center">Abonnement activé ! Vos contenus sont disponibles ci-dessous.</div>
         )}
         {cancelledParam === '1' && (
           <div className="mb-8 bg-yellow-900/20 border border-yellow-600/30 text-yellow-400 text-sm px-5 py-4 text-center">Paiement annulé. Vous pouvez réessayer à tout moment.</div>
@@ -210,20 +228,19 @@ function RevueContent() {
           <SectionTitle label="Nos formules" center />
           <h2 className="font-serif text-3xl text-cream mt-3 mb-12">Choisissez votre abonnement</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {plans.map((plan) => (
             <div key={plan.id} className={`relative flex flex-col bg-dark-3 border transition-all duration-200 overflow-hidden ${plan.best ? 'border-gold' : 'border-dark-4 hover:border-gold/30'}`}>
-              {plan.best && <div className="bg-gold text-dark text-xs font-bold tracking-widest uppercase text-center py-1.5">Meilleure valeur</div>}
-              {plan.popular && !plan.best && <div className="bg-dark-4 text-gold text-xs tracking-widest uppercase text-center py-1.5">Populaire</div>}
+              {plan.best && <div className="bg-gold text-dark text-xs font-bold tracking-widest uppercase text-center py-1.5">Institutions</div>}
+              {plan.popular && !plan.best && <div className="bg-dark-4 text-gold text-xs tracking-widest uppercase text-center py-1.5">Le plus choisi</div>}
               <div className="p-5 flex flex-col flex-1 gap-4">
                 <div>
-                  <p className="text-xs text-gold uppercase tracking-widest mb-1">{plan.duration}</p>
-                  {plan.savings && <span className="inline-block text-xs bg-gold/10 text-gold border border-gold/30 px-2 py-0.5 mb-2">{plan.savings}</span>}
+                  <p className="text-xs text-gold uppercase tracking-widest mb-1">{plan.name}</p>
                   <div className="flex items-baseline gap-1">
                     <span className="font-serif text-3xl text-cream font-bold">{plan.price}$</span>
-                    <span className="text-xs text-cream-muted">USD</span>
+                    <span className="text-xs text-cream-muted">USD / mois</span>
                   </div>
-                  <p className="text-xs text-cream-muted mt-0.5">≈ {plan.perMonth.toFixed(2)}$/mois USD</p>
+                  <p className="text-xs text-cream-muted mt-0.5">{plan.tagline}</p>
                 </div>
                 <ul className="space-y-2 flex-1">
                   {plan.features.map((f, i) => (
@@ -386,7 +403,7 @@ function RevueContent() {
           <div className="mt-20">
             <div className="mb-8 text-center">
               <SectionTitle label="Mon abonnement" center />
-              <h2 className="font-serif text-2xl text-cream mt-3">Mes numéros disponibles</h2>
+              <h2 className="font-serif text-2xl text-cream mt-3">Mes contenus disponibles</h2>
               {access.subscription && access.subscription.plan !== 'admin' && access.subscription.endDate && (
                 <p className="text-xs text-cream-muted mt-2">
                   Abonnement actif jusqu&apos;au <span className="text-gold">{new Date(access.subscription.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
@@ -409,7 +426,7 @@ function RevueContent() {
                       {issue.description && <p className="text-xs text-cream-muted leading-relaxed line-clamp-3">{issue.description}</p>}
                       <div className="mt-auto">
                         {(issue.pdfFile || issue.epubFile)
-                          ? <a href={`/revue/${issue.id}/lire`} className="block w-full text-center bg-gold hover:bg-gold-light text-dark font-semibold py-2.5 text-xs uppercase tracking-widest transition-colors">Lire la revue</a>
+                          ? <a href={`/flysys/${issue.id}/lire`} className="block w-full text-center bg-gold hover:bg-gold-light text-dark font-semibold py-2.5 text-xs uppercase tracking-widest transition-colors">Consulter</a>
                           : <div className="block w-full text-center border border-dark-4 text-cream-muted py-2.5 text-xs uppercase tracking-widest">Bientôt disponible</div>
                         }
                       </div>

@@ -86,7 +86,7 @@ export default function CGVPage() {
                 items={[
                   ['Livres numériques (ebooks)', 'fichiers PDF téléchargeables après achat'],
                   ['Livres physiques', 'expédiés à Kinshasa et environs'],
-                  ['Abonnements à la Revue FK', 'accès aux numéros mensuels en ligne (plans 1, 3, 6 ou 12 mois)'],
+                  ['Abonnements FLYSYS', 'accès à l\'exclusivité des contenus en ligne pendant 1 mois (formules Standard, Premium ou FLYSYS X)'],
                 ]}
               />
             </Section>

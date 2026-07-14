@@ -3,11 +3,11 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { createPayPalOrder } from '@/lib/paypal'
 
+// Formules FLYSYS — toutes donnent accès aux contenus pendant 1 mois.
 const PLANS: Record<string, { label: string; months: number; price: number }> = {
-  mensuel:     { label: '1 mois',   months: 1,  price: 4  },
-  trimestriel: { label: '3 mois',   months: 3,  price: 8  },
-  semestriel:  { label: '6 mois',   months: 6,  price: 16 },
-  annuel:      { label: '12 mois',  months: 12, price: 20 },
+  standard: { label: 'Standard', months: 1, price: 5  },
+  premium:  { label: 'Premium',  months: 1, price: 10 },
+  flysys_x: { label: 'FLYSYS X', months: 1, price: 30 },
 }
 
 export async function POST(req: Request) {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
   const order = await createPayPalOrder(
     plan.price,
-    `Revue FK Éditions — Abonnement ${plan.label}`
+    `FLYSYS — Abonnement ${plan.label}`
   )
 
   if (order.id) {

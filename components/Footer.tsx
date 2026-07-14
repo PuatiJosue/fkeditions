@@ -49,7 +49,7 @@ export default function Footer({ settings }: { settings?: Partial<SiteSettings> 
               <li><Link href="/auteurs">Nos auteurs</Link></li>
               <li><Link href="/livres">Acheter un livre</Link></li>
               <li><Link href="/evenements">Événements</Link></li>
-              <li><Link href="/revue">Revue & Magazine</Link></li>
+              <li><Link href="/flysys">FLYSYS</Link></li>
               <li><Link href="/avis">Livre d&apos;or</Link></li>
             </ul>
           </div>

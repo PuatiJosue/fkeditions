@@ -25,7 +25,7 @@ export default function NouveauNumeroPage() {
     setError('')
 
     try {
-      setLoadingMsg('Création du numéro...')
+      setLoadingMsg('Création du contenu...')
       const res = await fetch('/api/admin/revue', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ export default function NouveauNumeroPage() {
         if (!pdfRes.ok) throw new Error('Erreur upload PDF')
       }
 
-      router.push('/admin/revue')
+      router.push('/admin/flysys')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erreur inattendue')
       setLoading(false)
@@ -63,7 +63,7 @@ export default function NouveauNumeroPage() {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-xl font-semibold text-cream mb-6">Nouveau numéro de la revue</h1>
+      <h1 className="text-xl font-semibold text-cream mb-6">Nouveau contenu FLYSYS</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
@@ -73,7 +73,7 @@ export default function NouveauNumeroPage() {
             value={title}
             onChange={e => setTitle(e.target.value)}
             required
-            placeholder="ex : Santé Essentielle — Numéro 1"
+            placeholder="ex : Introduction au développement — Module 1"
             className="w-full bg-dark border border-dark-4 focus:border-gold/60 text-cream text-sm px-4 py-3 outline-none"
           />
         </div>
@@ -163,11 +163,11 @@ export default function NouveauNumeroPage() {
             disabled={loading}
             className="bg-gold hover:bg-gold-light text-dark font-semibold py-2.5 px-6 text-xs uppercase tracking-widest transition-colors disabled:opacity-60"
           >
-            {loading ? loadingMsg : 'Créer le numéro'}
+            {loading ? loadingMsg : 'Créer le contenu'}
           </button>
           <button
             type="button"
-            onClick={() => router.push('/admin/revue')}
+            onClick={() => router.push('/admin/flysys')}
             className="border border-dark-4 hover:border-gold/40 text-cream-muted text-xs uppercase tracking-widest px-6 py-2.5 transition-colors"
           >
             Annuler

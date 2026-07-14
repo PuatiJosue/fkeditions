@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/livres', label: 'Livres' },
   { href: '/auteurs', label: 'Auteurs' },
   { href: '/evenements', label: 'Événements' },
-  { href: '/revue', label: 'Revue' },
+  { href: '/flysys', label: 'FLYSYS' },
   { href: '/magazine', label: 'Magazine' },
   { href: '/avis', label: "Livre d'or" },
 ]

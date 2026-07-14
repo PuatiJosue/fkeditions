@@ -24,6 +24,15 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.amazonaws.com' },
     ],
   },
+  // La Revue est devenue FLYSYS : on redirige les anciennes adresses.
+  async redirects() {
+    return [
+      { source: '/revue', destination: '/flysys', permanent: true },
+      { source: '/revue/:path*', destination: '/flysys/:path*', permanent: true },
+      { source: '/admin/revue', destination: '/admin/flysys', permanent: false },
+      { source: '/admin/revue/:path*', destination: '/admin/flysys/:path*', permanent: false },
+    ]
+  },
   async headers() {
     return [
       {

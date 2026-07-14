@@ -43,7 +43,7 @@ export default function AdminRevuePage() {
   }
 
   async function deleteIssue(id: string) {
-    if (!confirm('Supprimer ce numéro ?')) return
+    if (!confirm('Supprimer ce contenu ?')) return
     const res = await fetch(`/api/admin/revue/${id}`, { method: 'DELETE' })
     if (res.ok) setIssues(prev => prev.filter(i => i.id !== id))
   }
@@ -51,12 +51,12 @@ export default function AdminRevuePage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-cream">Numéros de la Revue</h1>
+        <h1 className="text-xl font-semibold text-cream">Contenus FLYSYS</h1>
         <Link
-          href="/admin/revue/nouveau"
+          href="/admin/flysys/nouveau"
           className="bg-gold hover:bg-gold-light text-dark text-xs font-semibold uppercase tracking-widest px-4 py-2 transition-colors"
         >
-          + Nouveau numéro
+          + Nouveau contenu
         </Link>
       </div>
 
@@ -64,9 +64,9 @@ export default function AdminRevuePage() {
         <p className="text-cream-muted text-sm">Chargement...</p>
       ) : issues.length === 0 ? (
         <div className="text-center py-16 bg-dark-3 border border-dark-4">
-          <p className="text-cream-muted text-sm mb-4">Aucun numéro pour l&apos;instant.</p>
-          <Link href="/admin/revue/nouveau" className="text-gold text-xs underline">
-            Ajouter le premier numéro
+          <p className="text-cream-muted text-sm mb-4">Aucun contenu pour l&apos;instant.</p>
+          <Link href="/admin/flysys/nouveau" className="text-gold text-xs underline">
+            Ajouter le premier contenu
           </Link>
         </div>
       ) : (
@@ -74,7 +74,7 @@ export default function AdminRevuePage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-dark-4 text-cream-muted">
-                <th className="text-left px-4 py-3 font-medium">Numéro</th>
+                <th className="text-left px-4 py-3 font-medium">Contenu</th>
                 <th className="text-left px-4 py-3 font-medium">Période</th>
                 <th className="text-left px-4 py-3 font-medium">PDF</th>
                 <th className="text-left px-4 py-3 font-medium">Statut</th>
@@ -116,7 +116,7 @@ export default function AdminRevuePage() {
                         </a>
                       )}
                       <Link
-                        href={`/admin/revue/${issue.id}`}
+                        href={`/admin/flysys/${issue.id}`}
                         className="text-gold hover:text-gold-light transition-colors"
                       >
                         Modifier

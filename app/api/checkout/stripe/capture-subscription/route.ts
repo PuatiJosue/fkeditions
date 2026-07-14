@@ -4,9 +4,11 @@ import { authOptions } from '@/lib/auth'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 
+// Formules FLYSYS — toutes donnent accès aux contenus pendant 1 mois.
 const PLANS: Record<string, { months: number; price: number }> = {
-  mensuel: { months: 1, price: 4 }, trimestriel: { months: 3, price: 8 },
-  semestriel: { months: 6, price: 16 }, annuel: { months: 12, price: 20 },
+  standard: { months: 1, price: 5 },
+  premium:  { months: 1, price: 10 },
+  flysys_x: { months: 1, price: 30 },
 }
 
 export async function POST(req: Request) {

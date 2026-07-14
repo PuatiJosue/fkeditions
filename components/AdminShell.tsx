@@ -25,7 +25,7 @@ const navItems = [
   { href: '/admin/evenements', label: 'Événements', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
   )},
-  { href: '/admin/revue', label: 'Revue', icon: (
+  { href: '/admin/flysys', label: 'FLYSYS', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 5h16v14H4z"/><path d="M4 9h16M8 5v14"/></svg>
   )},
   { href: '/admin/magazine', label: 'Magazines', icon: (

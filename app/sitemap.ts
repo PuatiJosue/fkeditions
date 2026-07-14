@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/livres`,        priority: 0.9, changeFrequency: 'weekly'  },
     { url: `${base}/auteurs`,       priority: 0.8, changeFrequency: 'monthly' },
     { url: `${base}/evenements`,    priority: 0.8, changeFrequency: 'weekly'  },
-    { url: `${base}/revue`,         priority: 0.7, changeFrequency: 'monthly' },
+    { url: `${base}/flysys`,        priority: 0.7, changeFrequency: 'monthly' },
     { url: `${base}/contact`,       priority: 0.5, changeFrequency: 'yearly'  },
   ]
 

@@ -3,7 +3,7 @@ import Link from 'next/link'
 const rows = [
   ['Littérature', 'Récit', 'Essai', 'Témoignage', 'Poésie', 'Histoire'],
   ['Spiritualité', 'Jeunesse', 'Documents', 'Biographie', 'Théâtre', 'Roman'],
-  ['Revue littéraire', 'Magazine', 'Numérique', 'Audio', 'Manuscrits', 'Ateliers'],
+  ['FLYSYS', 'Magazine', 'Numérique', 'Audio', 'Manuscrits', 'Ateliers'],
 ]
 
 export default function DiscoverMarquees() {

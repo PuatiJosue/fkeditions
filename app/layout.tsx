@@ -33,7 +33,7 @@ const SITE_URL = 'https://fk-editions.com'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'FK Éditions — Livres & Revue littéraire à Kinshasa',
+    default: 'FK Éditions — Livres, Magazines & FLYSYS à Kinshasa',
     template: '%s — FK Éditions',
   },
   description:
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     locale: 'fr_CD',
     url: SITE_URL,
     siteName: 'FK Éditions',
-    title: 'FK Éditions — Livres & Revue littéraire à Kinshasa',
+    title: 'FK Éditions — Livres, Magazines & FLYSYS à Kinshasa',
     description:
       "Maison d'édition indépendante basée à Kinshasa, RDC. Découvrez nos livres numériques et notre revue littéraire mensuelle. Fondée par Fortune Khonde.",
     images: [
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FK Éditions — Livres & Revue littéraire à Kinshasa',
+    title: 'FK Éditions — Livres, Magazines & FLYSYS à Kinshasa',
     description:
       "Maison d'édition indépendante basée à Kinshasa, RDC. Découvrez nos livres numériques et notre revue littéraire mensuelle.",
     images: ['/images/og-image.png'],

@@ -84,9 +84,9 @@ export default function LireRevuePage() {
         {error && (
           <div className="text-center py-20 px-6">
             <p className="text-red-400 text-sm mb-2">Une erreur est survenue.</p>
-            <p className="text-xs text-cream-muted mb-6">Veuillez retourner à la revue et réessayer.</p>
+            <p className="text-xs text-cream-muted mb-6">Veuillez retourner à FLYSYS et réessayer.</p>
             <button onClick={() => router.back()} className="bg-gold text-dark text-xs font-semibold px-6 py-2.5 uppercase tracking-widest">
-              ← Retour à la revue
+              ← Retour à FLYSYS
             </button>
           </div>
         )}

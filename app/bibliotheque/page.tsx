@@ -114,8 +114,8 @@ export default async function BibliothequeePage() {
                   <span>Découvrir les livres</span>
                   <span className="shimmer" />
                 </Link>
-                <Link href="/revue" className="btn btn-ghost">
-                  Découvrir la revue
+                <Link href="/flysys" className="btn btn-ghost">
+                  Découvrir FLYSYS
                 </Link>
               </div>
             </div>
@@ -354,7 +354,7 @@ export default async function BibliothequeePage() {
                             borderRadius: 999,
                           }}
                         >
-                          Revue
+                          FLYSYS
                         </span>
                       </div>
                       <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
@@ -393,7 +393,7 @@ export default async function BibliothequeePage() {
                         <div style={{ marginTop: 'auto' }}>
                           {issue.pdfFile || issue.epubFile ? (
                             <Link
-                              href={`/revue/${issue.id}/lire`}
+                              href={`/flysys/${issue.id}/lire`}
                               className="btn btn-primary"
                               style={{ width: '100%', justifyContent: 'center', padding: '10px 16px', fontSize: 11 }}
                             >
@@ -428,7 +428,7 @@ export default async function BibliothequeePage() {
               }}
             >
               <div>
-                <p className="kicker" style={{ marginBottom: 8 }}>Revue FK Éditions</p>
+                <p className="kicker" style={{ marginBottom: 8 }}>FLYSYS</p>
                 <h3 style={{ fontFamily: 'var(--serif)', fontSize: 24, color: 'var(--ink)', marginBottom: 8 }}>
                   Abonnez-vous à la revue
                 </h3>
@@ -436,7 +436,7 @@ export default async function BibliothequeePage() {
                   Accédez à tous nos numéros et archives depuis votre bibliothèque.
                 </p>
               </div>
-              <Link href="/revue#abonnements" className="btn btn-primary">
+              <Link href="/flysys#abonnements" className="btn btn-primary">
                 <span>Voir les abonnements</span>
                 <span className="shimmer" />
               </Link>

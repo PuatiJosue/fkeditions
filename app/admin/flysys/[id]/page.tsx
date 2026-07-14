@@ -70,7 +70,7 @@ export default function EditRevuePage() {
         if (!pdfRes.ok) throw new Error('Erreur upload PDF')
       }
 
-      router.push('/admin/revue')
+      router.push('/admin/flysys')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erreur inattendue')
       setLoading(false)
@@ -81,7 +81,7 @@ export default function EditRevuePage() {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-xl font-semibold text-cream mb-6">Modifier le numéro</h1>
+      <h1 className="text-xl font-semibold text-cream mb-6">Modifier le contenu</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
@@ -184,7 +184,7 @@ export default function EditRevuePage() {
           </button>
           <button
             type="button"
-            onClick={() => router.push('/admin/revue')}
+            onClick={() => router.push('/admin/flysys')}
             className="border border-dark-4 hover:border-gold/40 text-cream-muted text-xs uppercase tracking-widest px-6 py-2.5 transition-colors"
           >
             Annuler

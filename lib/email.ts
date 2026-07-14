@@ -93,7 +93,7 @@ export async function sendSubscriptionConfirmation(email: string, planLabel: str
       </p>
       <div style="background:#1a1a1a;border:1px solid #c9a84c40;padding:20px;margin-bottom:24px;">
         <p style="color:#c9a84c;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Votre abonnement</p>
-        <p style="color:#f5f0e8;font-size:16px;margin-bottom:4px;">Revue FK Éditions — ${planLabel}</p>
+        <p style="color:#f5f0e8;font-size:16px;margin-bottom:4px;">FLYSYS — Formule ${planLabel}</p>
         <p style="color:#a89880;font-size:14px;margin-bottom:4px;">${amount} $ USD</p>
         <p style="color:#c9a84c;font-size:13px;">Accès jusqu'au ${formattedEnd}</p>
       </div>
@@ -101,7 +101,7 @@ export async function sendSubscriptionConfirmation(email: string, planLabel: str
         Tous les numéros publiés sont disponibles immédiatement dans votre espace abonné.
       </p>
       <div style="text-align:center;margin-bottom:28px;">
-        <a href="${process.env.NEXTAUTH_URL}/revue"
+        <a href="${process.env.NEXTAUTH_URL}/flysys"
            style="background:#c9a84c;color:#0d0d0d;padding:12px 32px;text-decoration:none;font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:bold;">
           Accéder à mes numéros
         </a>
@@ -163,7 +163,7 @@ export async function sendWelcomeEmail(email: string, name?: string) {
         <p style="color:#c9a84c;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Ce que vous pouvez faire</p>
         <p style="color:#a89880;font-size:13px;line-height:2;margin:0;">
           📚 Acheter et lire nos ebooks<br/>
-          📰 S'abonner à la Revue FK Éditions<br/>
+          📰 S'abonner à FLYSYS<br/>
           🔖 Retrouver vos livres dans votre bibliothèque<br/>
           🎉 Découvrir nos nouveautés en avant-première
         </p>
