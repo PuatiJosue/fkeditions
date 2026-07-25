@@ -4,120 +4,14 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 import SectionTitle from '@/components/ui/SectionTitle'
-import { useTheme } from '@/lib/useTheme'
+import { PLANS, DEFAULT_OPERATORS, buildOperators, type Operator } from './_data'
+import SubscriptionCardForm from './_components/SubscriptionCardForm'
+import PlanMobileMoneyForm from './_components/PlanMobileMoneyForm'
+import SubscriberContent, { type RevueAccess } from './_components/SubscriberContent'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
-
-const MONTHS = ['', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
-
-interface Operator {
-  value: string
-  label: string
-  number: string
-  prefixes: string[]
-  placeholder: string
-}
-
-function buildOperators(mpesa: string, airtel: string): Operator[] {
-  return [
-    { value: 'M_PESA', label: 'M-Pesa',       number: mpesa,  prefixes: ['081', '082'], placeholder: 'ex: 0810000000 ou 0820000000' },
-    { value: 'AIRTEL', label: 'Airtel Money', number: airtel, prefixes: ['099'],        placeholder: 'ex: 0990000000' },
-  ]
-}
-
-const DEFAULT_OPERATORS = buildOperators('0829082048', '0991316128')
-
-interface RevueIssue { id: string; title: string; month: number; year: number; description: string | null; pdfFile: string | null; epubFile: string | null }
-
-/**
- * Formules FLYSYS — chaque abonnement donne accès à l'exclusivité des contenus
- * pendant 1 mois entier. Les prix DOIVENT rester alignés avec les routes de
- * paiement côté serveur (app/api/checkout/**), qui font foi pour le montant facturé.
- */
-const PLANS = [
-  {
-    id: 'standard',
-    name: 'Standard',
-    price: 5,
-    tagline: 'Pour bien démarrer',
-    features: ['Accès à tous les cours', 'Exercices pratiques', 'Accès mobile et ordinateur'],
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    price: 10,
-    tagline: 'Le plus complet',
-    features: ['Accès à tous les cours', 'Exercices pratiques', 'Analyses détaillées', 'Accès mobile et ordinateur'],
-    popular: true,
-  },
-  {
-    id: 'flysys_x',
-    name: 'FLYSYS X',
-    price: 30,
-    tagline: 'Universités & institutions',
-    features: ['Cours, exercices et analyses', 'Pensé pour les établissements', 'Accompagnement dédié', 'Accès mobile et ordinateur'],
-    best: true,
-  },
-]
-
-function SubscriptionCardForm({ planId, price, onSuccess }: { planId: string; price: number; onSuccess: () => void }) {
-  const stripe = useStripe()
-  const elements = useElements()
-  const { theme } = useTheme()
-  const cardText = theme === 'light' ? '#2a2118' : '#e8dcc8'
-  const cardPlaceholder = theme === 'light' ? '#9a8f7d' : '#6b6252'
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [clientSecret, setClientSecret] = useState('')
-
-  useEffect(() => {
-    fetch('/api/checkout/stripe/create-subscription-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ planId }),
-    }).then(r => r.json()).then(d => { if (d.clientSecret) setClientSecret(d.clientSecret) })
-  }, [planId])
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!stripe || !elements || !clientSecret) return
-    setLoading(true); setError('')
-    const card = elements.getElement(CardElement)
-    if (!card) return
-    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card },
-    })
-    if (stripeError) { setError(stripeError.message ?? 'Erreur de paiement'); setLoading(false); return }
-    if (paymentIntent?.status === 'succeeded') {
-      const res = await fetch('/api/checkout/stripe/capture-subscription', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentIntentId: paymentIntent.id, planId }),
-      })
-      const result = await res.json()
-      if (result.success) onSuccess()
-      else setError(result.error ?? 'Erreur de confirmation')
-    }
-    setLoading(false)
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <div className="border border-dark-4 bg-dark-2 px-3 py-2.5">
-        <CardElement key={theme} options={{ style: { base: { fontSize: '13px', color: cardText, fontFamily: 'monospace', '::placeholder': { color: cardPlaceholder } }, invalid: { color: '#f87171' } } }} />
-      </div>
-      {error && <p className="text-[10px] text-red-400 border border-red-800/40 px-2 py-1.5">{error}</p>}
-      <button type="submit" disabled={!stripe || !clientSecret || loading}
-        className="bg-gold hover:bg-gold-light disabled:opacity-50 text-dark font-semibold py-2.5 text-[10px] tracking-widest uppercase transition-colors">
-        {loading ? 'Traitement...' : `Payer ${price} USD`}
-      </button>
-      <p className="text-[9px] text-cream-muted/50 text-center">Visa · Mastercard · Amex</p>
-    </form>
-  )
-}
 
 function RevueContent() {
   const { data: session } = useSession()
@@ -126,7 +20,6 @@ function RevueContent() {
   const successParam = searchParams.get('success')
   const cancelledParam = searchParams.get('cancelled')
 
-  const plans = PLANS
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [payTab, setPayTab] = useState<'card' | 'mm'>('card')
   const [mmPhone, setMmPhone] = useState('')
@@ -135,7 +28,7 @@ function RevueContent() {
   const [mmError, setMmError] = useState('')
   const [mmReference, setMmReference] = useState('')
   const [subSuccess, setSubSuccess] = useState(false)
-  const [access, setAccess] = useState<{ hasAccess: boolean; subscription: { plan: string; endDate: string } | null; issues: RevueIssue[] } | null>(null)
+  const [access, setAccess] = useState<RevueAccess | null>(null)
   const [operators, setOperators] = useState<Operator[]>(DEFAULT_OPERATORS)
 
   useEffect(() => {
@@ -146,8 +39,12 @@ function RevueContent() {
 
   useEffect(() => {
     if (!session) return
-    fetch('/api/revue/access').then(r => r.json()).then(setAccess)
+    fetch('/api/revue/access').then((r) => r.json()).then(setAccess)
   }, [session, successParam])
+
+  function refreshAccess() {
+    fetch('/api/revue/access').then((r) => r.json()).then(setAccess)
+  }
 
   function handleSubscribe(planId: string) {
     if (!session) { router.push('/login?callbackUrl=/flysys'); return }
@@ -159,9 +56,9 @@ function RevueContent() {
 
   async function handleMmSubmit(e: React.FormEvent, plan: { id: string; price: number }) {
     e.preventDefault()
-    const activeOp = operators.find(o => o.value === mmOperator)!
+    const activeOp = operators.find((o) => o.value === mmOperator)!
     if (!mmPhone.trim()) { setMmError('Veuillez entrer votre numéro de téléphone'); return }
-    if (!activeOp.prefixes.some(p => mmPhone.trim().startsWith(p))) {
+    if (!activeOp.prefixes.some((p) => mmPhone.trim().startsWith(p))) {
       setMmError(`Un numéro ${activeOp.label} doit commencer par ${activeOp.prefixes.join(' ou ')}`)
       return
     }
@@ -185,26 +82,13 @@ function RevueContent() {
 
   return (
     <>
-      <section
-        className="fk-section"
-        style={{ paddingTop: 'clamp(60px, 8vh, 100px)', paddingBottom: 'clamp(40px, 6vh, 60px)' }}
-      >
+      <section className="fk-section" style={{ paddingTop: 'clamp(60px, 8vh, 100px)', paddingBottom: 'clamp(40px, 6vh, 60px)' }}>
         <div className="fk-container" style={{ textAlign: 'center' }}>
           <span className="kicker" style={{ justifyContent: 'center' }}>FK Éditions présente</span>
           <h1 className="section-title">
             <em className="serif-i">FLYSYS</em>
           </h1>
-          <p
-            style={{
-              marginTop: 24,
-              color: 'var(--ink-soft)',
-              fontSize: 17,
-              lineHeight: 1.65,
-              maxWidth: 720,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          >
+          <p style={{ marginTop: 24, color: 'var(--ink-soft)', fontSize: 17, lineHeight: 1.65, maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
             Plateforme d&apos;apprentissage, de cours et de développement.
             Choisissez votre formule et accédez à l&apos;exclusivité des contenus
             pendant <strong style={{ color: 'var(--ink)' }}>1 mois entier</strong>.
@@ -213,8 +97,6 @@ function RevueContent() {
       </section>
 
       <div className="fk-container" style={{ paddingBottom: 'clamp(60px, 8vh, 100px)' }}>
-
-        {/* Banners */}
         {(successParam === '1' || subSuccess) && (
           <div className="mb-8 bg-green-900/30 border border-green-600/40 text-green-400 text-sm px-5 py-4 text-center">Abonnement activé ! Vos contenus sont disponibles ci-dessous.</div>
         )}
@@ -222,14 +104,12 @@ function RevueContent() {
           <div className="mb-8 bg-yellow-900/20 border border-yellow-600/30 text-yellow-400 text-sm px-5 py-4 text-center">Paiement annulé. Vous pouvez réessayer à tout moment.</div>
         )}
 
-
-        {/* Plans */}
         <div id="abonnements" className="mb-10 text-center">
           <SectionTitle label="Nos formules" center />
           <h2 className="font-serif text-3xl text-cream mt-3 mb-12">Choisissez votre abonnement</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {plans.map((plan) => (
+          {PLANS.map((plan) => (
             <div key={plan.id} className={`relative flex flex-col bg-dark-3 border transition-all duration-200 overflow-hidden ${plan.best ? 'border-gold' : 'border-dark-4 hover:border-gold/30'}`}>
               {plan.best && <div className="bg-gold text-dark text-xs font-bold tracking-widest uppercase text-center py-1.5">Institutions</div>}
               {plan.popular && !plan.best && <div className="bg-dark-4 text-gold text-xs tracking-widest uppercase text-center py-1.5">Le plus choisi</div>}
@@ -257,14 +137,10 @@ function RevueContent() {
                 {selectedPlan === plan.id && (
                   <div className="mt-2 flex flex-col gap-3">
                     <div className="flex border border-dark-4">
-                      <button
-                        onClick={() => { setPayTab('card'); setMmError(''); setMmReference('') }}
-                        className={`flex-1 py-2 text-[10px] uppercase tracking-widest font-semibold transition-colors ${payTab === 'card' ? 'bg-gold text-dark' : 'text-cream-muted hover:text-cream'}`}
-                      >Carte bancaire</button>
-                      <button
-                        onClick={() => { setPayTab('mm') }}
-                        className={`flex-1 py-2 text-[10px] uppercase tracking-widest font-semibold transition-colors ${payTab === 'mm' ? 'bg-gold text-dark' : 'text-cream-muted hover:text-cream'}`}
-                      >Mobile Money</button>
+                      <button onClick={() => { setPayTab('card'); setMmError(''); setMmReference('') }}
+                        className={`flex-1 py-2 text-[10px] uppercase tracking-widest font-semibold transition-colors ${payTab === 'card' ? 'bg-gold text-dark' : 'text-cream-muted hover:text-cream'}`}>Carte bancaire</button>
+                      <button onClick={() => { setPayTab('mm') }}
+                        className={`flex-1 py-2 text-[10px] uppercase tracking-widest font-semibold transition-colors ${payTab === 'mm' ? 'bg-gold text-dark' : 'text-cream-muted hover:text-cream'}`}>Mobile Money</button>
                     </div>
 
                     {payTab === 'card' && (
@@ -272,119 +148,24 @@ function RevueContent() {
                         <SubscriptionCardForm
                           planId={plan.id}
                           price={plan.price}
-                          onSuccess={() => { setSubSuccess(true); setSelectedPlan(null); fetch('/api/revue/access').then(r => r.json()).then(setAccess) }}
+                          onSuccess={() => { setSubSuccess(true); setSelectedPlan(null); refreshAccess() }}
                         />
                       </Elements>
                     )}
 
                     {payTab === 'mm' && (
-                      mmReference ? (
-                        <div className="bg-green-900/30 border border-green-600/40 text-green-400 text-xs px-3 py-3 leading-relaxed space-y-1">
-                          <p>Abonnement enregistré ! Envoyez <span className="text-cream font-semibold">{plan.price} $</span> via Mobile Money au numéro FK Éditions.</p>
-                          <p>Votre référence :{' '}
-                            <span className="font-bold text-gold text-sm tracking-widest">{mmReference}</span>
-                            {' '}— Gardez-la précieusement.
-                          </p>
-                          <p className="text-cream-muted">Votre abonnement sera activé sous 24h après réception du paiement.</p>
-                        </div>
-                      ) : (
-                        <form onSubmit={(e) => handleMmSubmit(e, plan)} className="flex flex-col gap-2">
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[10px] text-cream-muted uppercase tracking-widest">Opérateur</label>
-                            <select
-                              value={mmOperator}
-                              onChange={(e) => setMmOperator(e.target.value)}
-                              className="bg-dark-2 border border-dark-4 text-cream text-xs px-3 py-2 focus:outline-none focus:border-gold/50"
-                            >
-                              {operators.map(op => <option key={op.value} value={op.value}>{op.label}</option>)}
-                            </select>
-                          </div>
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[10px] text-cream-muted uppercase tracking-widest">Numéro de téléphone</label>
-                            <input
-                              type="text"
-                              inputMode="tel"
-                              value={mmPhone}
-                              onChange={(e) => setMmPhone(e.target.value)}
-                              placeholder={operators.find(o => o.value === mmOperator)?.placeholder}
-                              className="bg-dark-2 border border-dark-4 text-cream text-xs px-3 py-2 placeholder:text-cream-muted/50 focus:outline-none focus:border-gold/50"
-                            />
-                          </div>
-                          {mmError && <p className="text-[10px] text-red-400 border border-red-800/40 px-2 py-1.5">{mmError}</p>}
-                          <button
-                            type="submit"
-                            disabled={mmLoading}
-                            className="bg-gold hover:bg-gold-light disabled:opacity-60 text-dark font-semibold py-2.5 text-[10px] tracking-widest uppercase transition-colors"
-                          >
-                            {mmLoading ? 'Envoi...' : `Confirmer — ${plan.price} $`}
-                          </button>
-                          <div
-                            style={{
-                              background: 'var(--accent-soft)',
-                              border: '2px solid var(--accent)',
-                              padding: 12,
-                              color: 'var(--accent-deep)',
-                              fontSize: 11,
-                              lineHeight: 1.5,
-                            }}
-                          >
-                            <p>
-                              Envoyez <strong>{plan.price} $</strong> via{' '}
-                              <strong>{operators.find(o => o.value === mmOperator)?.label}</strong> au :
-                            </p>
-                            <div
-                              style={{
-                                margin: '8px 0',
-                                padding: '10px 12px',
-                                background: 'var(--paper)',
-                                border: '1px dashed var(--accent)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                gap: 8,
-                                flexWrap: 'wrap',
-                              }}
-                            >
-                              <span
-                                style={{
-                                  fontFamily: 'var(--serif)',
-                                  fontSize: 'clamp(18px, 3vw, 24px)',
-                                  fontWeight: 700,
-                                  letterSpacing: '0.05em',
-                                  color: 'var(--accent)',
-                                }}
-                              >
-                                {operators.find(o => o.value === mmOperator)?.number}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const num = operators.find(o => o.value === mmOperator)?.number
-                                  if (num) navigator.clipboard?.writeText(num)
-                                }}
-                                style={{
-                                  background: 'var(--accent)',
-                                  color: '#fff',
-                                  border: 'none',
-                                  padding: '6px 10px',
-                                  fontSize: 10,
-                                  letterSpacing: '0.08em',
-                                  textTransform: 'uppercase',
-                                  fontWeight: 600,
-                                  cursor: 'pointer',
-                                  borderRadius: 4,
-                                }}
-                                title="Copier"
-                              >
-                                📋 Copier
-                              </button>
-                            </div>
-                            <p style={{ fontSize: 10, opacity: 0.85 }}>
-                              Abonnement activé sous 24h après paiement.
-                            </p>
-                          </div>
-                        </form>
-                      )
+                      <PlanMobileMoneyForm
+                        plan={plan}
+                        operators={operators}
+                        mmOperator={mmOperator}
+                        setMmOperator={setMmOperator}
+                        mmPhone={mmPhone}
+                        setMmPhone={setMmPhone}
+                        mmError={mmError}
+                        mmLoading={mmLoading}
+                        mmReference={mmReference}
+                        onSubmit={(e) => handleMmSubmit(e, plan)}
+                      />
                     )}
                   </div>
                 )}
@@ -398,45 +179,7 @@ function RevueContent() {
           {!session && <span className="block mt-1 text-gold">Vous devrez vous connecter pour finaliser votre abonnement.</span>}
         </p>
 
-        {/* Numéros abonnés */}
-        {access?.hasAccess && (
-          <div className="mt-20">
-            <div className="mb-8 text-center">
-              <SectionTitle label="Mon abonnement" center />
-              <h2 className="font-serif text-2xl text-cream mt-3">Mes contenus disponibles</h2>
-              {access.subscription && access.subscription.plan !== 'admin' && access.subscription.endDate && (
-                <p className="text-xs text-cream-muted mt-2">
-                  Abonnement actif jusqu&apos;au <span className="text-gold">{new Date(access.subscription.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                </p>
-              )}
-            </div>
-            {access.issues.length === 0 ? (
-              <div className="text-center py-12 bg-dark-3 border border-dark-4">
-                <p className="text-cream-muted text-sm">Aucun numéro disponible pour le moment. Revenez bientôt !</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {access.issues.map(issue => (
-                  <div key={issue.id} className="bg-dark-3 border border-dark-4 overflow-hidden flex flex-col">
-                    <div className="bg-gold px-5 py-4">
-                      <p className="text-xs text-dark/70 uppercase tracking-widest font-semibold">{MONTHS[issue.month]} {issue.year}</p>
-                      <h3 className="font-serif text-base text-dark font-bold leading-snug mt-0.5">{issue.title}</h3>
-                    </div>
-                    <div className="p-5 flex flex-col flex-1 gap-4">
-                      {issue.description && <p className="text-xs text-cream-muted leading-relaxed line-clamp-3">{issue.description}</p>}
-                      <div className="mt-auto">
-                        {(issue.pdfFile || issue.epubFile)
-                          ? <a href={`/flysys/${issue.id}/lire`} className="block w-full text-center bg-gold hover:bg-gold-light text-dark font-semibold py-2.5 text-xs uppercase tracking-widest transition-colors">Consulter</a>
-                          : <div className="block w-full text-center border border-dark-4 text-cream-muted py-2.5 text-xs uppercase tracking-widest">Bientôt disponible</div>
-                        }
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+        {access?.hasAccess && <SubscriberContent access={access} />}
       </div>
     </>
   )
