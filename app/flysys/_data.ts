@@ -1,21 +1,6 @@
 /** Données statiques de la page FLYSYS : formules d'abonnement et opérateurs Mobile Money. */
 
-export interface Operator {
-  value: string
-  label: string
-  number: string
-  prefixes: string[]
-  placeholder: string
-}
-
-export function buildOperators(mpesa: string, airtel: string): Operator[] {
-  return [
-    { value: 'M_PESA', label: 'M-Pesa', number: mpesa, prefixes: ['081', '082'], placeholder: 'ex: 0810000000 ou 0820000000' },
-    { value: 'AIRTEL', label: 'Airtel Money', number: airtel, prefixes: ['099'], placeholder: 'ex: 0990000000' },
-  ]
-}
-
-export const DEFAULT_OPERATORS = buildOperators('0829082048', '0991316128')
+export { buildOperators, DEFAULT_OPERATORS, type Operator } from '@/lib/mobileMoney'
 
 export interface RevueIssue {
   id: string

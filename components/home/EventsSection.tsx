@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { MONTHS_SHORT_FR } from '@/lib/constants'
 
 export interface EventCardData {
   id: string
@@ -16,11 +17,7 @@ interface EventsSectionProps {
 function formatDate(d: Date | string): { day: string; month: string } {
   const date = typeof d === 'string' ? new Date(d) : d
   const day = String(date.getDate()).padStart(2, '0')
-  const months = [
-    'Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.',
-  ]
-  const month = `${months[date.getMonth()]} ${date.getFullYear()}`
+  const month = `${MONTHS_SHORT_FR[date.getMonth()]} ${date.getFullYear()}`
   return { day, month }
 }
 

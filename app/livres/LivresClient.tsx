@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { MONTHS_SHORT_FR } from '@/lib/constants'
 
 export interface LivreItem {
   slug: string
@@ -23,11 +24,7 @@ function formatReleaseLabel(book: LivreItem): string {
   if (book.releaseDate) {
     try {
       const d = new Date(book.releaseDate)
-      const months = [
-        'Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin',
-        'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.',
-      ]
-      return `${book.preOrder ? 'À paraître · ' : 'Parution · '}${months[d.getMonth()]} ${d.getFullYear()}`
+      return `${book.preOrder ? 'À paraître · ' : 'Parution · '}${MONTHS_SHORT_FR[d.getMonth()]} ${d.getFullYear()}`
     } catch {
       /* no-op */
     }

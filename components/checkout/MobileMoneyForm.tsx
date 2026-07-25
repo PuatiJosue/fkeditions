@@ -3,23 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-
-interface Operator {
-  value: string
-  label: string
-  number: string
-  prefixes: string[]
-  placeholder: string
-}
-
-function buildOperators(mpesa: string, airtel: string): Operator[] {
-  return [
-    { value: 'M_PESA', label: 'M-Pesa',       number: mpesa,  prefixes: ['081', '082'], placeholder: 'ex: 0810000000 ou 0820000000' },
-    { value: 'AIRTEL', label: 'Airtel Money', number: airtel, prefixes: ['099'],        placeholder: 'ex: 0990000000' },
-  ]
-}
-
-const DEFAULT_OPERATORS = buildOperators('0829082048', '0991316128')
+import { DEFAULT_MPESA_NUMBER, DEFAULT_AIRTEL_NUMBER } from '@/lib/constants'
+import { buildOperators, DEFAULT_OPERATORS, type Operator } from '@/lib/mobileMoney'
 
 interface Props {
   bookId: string
@@ -42,8 +27,8 @@ export default function MobileMoneyForm({ bookId, bookTitle, price, preOrder = f
       .then((data) => {
         setOperators(
           buildOperators(
-            data.mpesa_number || '0829082048',
-            data.airtel_number || '0991316128'
+            data.mpesa_number || DEFAULT_MPESA_NUMBER,
+            data.airtel_number || DEFAULT_AIRTEL_NUMBER
           )
         )
       })

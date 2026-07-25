@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import SectionTitle from '@/components/ui/SectionTitle'
+import { DEFAULT_MPESA_NUMBER, DEFAULT_AIRTEL_NUMBER } from '@/lib/constants'
 import { PLANS, DEFAULT_OPERATORS, buildOperators, type Operator } from './_data'
 import SubscriptionCardForm from './_components/SubscriptionCardForm'
 import PlanMobileMoneyForm from './_components/PlanMobileMoneyForm'
@@ -33,7 +34,7 @@ function RevueContent() {
 
   useEffect(() => {
     fetch('/api/settings').then((r) => r.json()).then((data) => {
-      setOperators(buildOperators(data.mpesa_number || '0829082048', data.airtel_number || '0991316128'))
+      setOperators(buildOperators(data.mpesa_number || DEFAULT_MPESA_NUMBER, data.airtel_number || DEFAULT_AIRTEL_NUMBER))
     }).catch(() => {})
   }, [])
 

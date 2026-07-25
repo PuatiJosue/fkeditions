@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { events as staticEvents } from '@/data/events'
+import { MONTHS_SHORT_FR } from '@/lib/constants'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -49,11 +50,7 @@ async function fetchEvents(): Promise<{ upcoming: EventItem[]; past: EventItem[]
 
 function formatDate(d: Date): { day: string; month: string } {
   const day = String(d.getDate()).padStart(2, '0')
-  const months = [
-    'Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.',
-  ]
-  return { day, month: `${months[d.getMonth()]} ${d.getFullYear()}` }
+  return { day, month: `${MONTHS_SHORT_FR[d.getMonth()]} ${d.getFullYear()}` }
 }
 
 function EventRow({ event, dim = false }: { event: EventItem; dim?: boolean }) {

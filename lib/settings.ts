@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { DEFAULT_MPESA_NUMBER, DEFAULT_AIRTEL_NUMBER } from '@/lib/constants'
 
 /**
  * Default values used when a setting is not set in the database.
@@ -6,8 +7,8 @@ import { prisma } from '@/lib/prisma'
  */
 export const SETTING_DEFAULTS = {
   // Mobile Money
-  mpesa_number: '0829082048',
-  airtel_number: '0991316128',
+  mpesa_number: DEFAULT_MPESA_NUMBER,
+  airtel_number: DEFAULT_AIRTEL_NUMBER,
 
   // General contact
   contact_email: 'editionsfk@gmail.com',
