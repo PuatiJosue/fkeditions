@@ -21,6 +21,30 @@ Basée à Kinshasa, République Démocratique du Congo 🇨🇩
 
 FK Éditions est une application **full-stack** construite avec **Next.js (App Router)**. Elle couvre l'intégralité du parcours d'une maison d'édition moderne : catalogue en ligne, lecture d'ebooks et d'audiolivres dans le navigateur, trois moyens de paiement (dont le **Mobile Money** local), gestion des abonnements, et un panneau d'administration riche pour piloter le catalogue, les commandes et les utilisateurs.
 
+## 📸 Captures d'écran
+
+> 🖼️ Déposez vos images dans [`docs/screenshots/`](./docs/screenshots) en respectant les noms ci-dessous, elles s'afficheront automatiquement.
+
+| Accueil | Catalogue |
+|:---:|:---:|
+| ![Page d'accueil](docs/screenshots/accueil.png) | ![Catalogue des livres](docs/screenshots/catalogue.png) |
+| **Fiche livre** | **Lecteur audio** |
+| ![Fiche d'un livre](docs/screenshots/fiche-livre.png) | ![Lecteur audio](docs/screenshots/lecteur-audio.png) |
+| **FLYSYS — Abonnements** | **Ma bibliothèque** |
+| ![Abonnements FLYSYS](docs/screenshots/flysys.png) | ![Bibliothèque personnelle](docs/screenshots/bibliotheque.png) |
+| **Back-office — Tableau de bord** | **Back-office — Utilisateurs** |
+| ![Tableau de bord admin](docs/screenshots/admin-dashboard.png) | ![Gestion des utilisateurs](docs/screenshots/admin-utilisateurs.png) |
+
+<!--
+  Pour remplir cette section :
+  1. Crée le dossier docs/screenshots/ (déjà présent).
+  2. Dépose tes captures en .png avec exactement ces noms :
+       accueil.png · catalogue.png · fiche-livre.png · lecteur-audio.png
+       flysys.png · bibliotheque.png · admin-dashboard.png · admin-utilisateurs.png
+  3. Ajoute/retire des lignes du tableau selon le nombre de captures.
+  Astuce : largeur ~1280px, format paysage, thème clair pour un rendu homogène.
+-->
+
 ## 🚀 Fonctionnalités
 
 ### Côté client
