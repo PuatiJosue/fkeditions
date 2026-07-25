@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import CheckoutSection from '@/components/CheckoutSection'
+import CheckoutSection from '@/components/checkout/CheckoutSection'
 
 type FormatKey = 'ebook' | 'physical' | 'audio'
 

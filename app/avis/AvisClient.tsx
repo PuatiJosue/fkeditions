@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Banner } from '@/components/AuthForm'
+import { Banner } from '@/components/auth/AuthForm'
 
 interface CommentItem {
   id: string

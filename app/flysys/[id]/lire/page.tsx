@@ -5,8 +5,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 
-const PDFViewer = dynamic(() => import('@/components/PDFViewer'), { ssr: false })
-const EPUBViewer = dynamic(() => import('@/components/EPUBViewer'), { ssr: false })
+const PDFViewer = dynamic(() => import('@/components/reader/PDFViewer'), { ssr: false })
+const EPUBViewer = dynamic(() => import('@/components/reader/EPUBViewer'), { ssr: false })
 
 const REFRESH_INTERVAL = 25 * 60 * 1000
 

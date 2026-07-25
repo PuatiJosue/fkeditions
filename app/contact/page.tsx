@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Banner, Field } from '@/components/AuthForm'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })

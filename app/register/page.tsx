@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Banner, Field } from '@/components/AuthForm'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 function getStrength(password: string): { score: number; label: string; color: string } {
   if (password.length === 0) return { score: 0, label: '', color: 'var(--line)' }

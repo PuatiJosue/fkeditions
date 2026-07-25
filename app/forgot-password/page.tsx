@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Banner, Field } from '@/components/AuthForm'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')

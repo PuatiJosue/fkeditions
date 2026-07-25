@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import BookFormatSelector from '@/components/BookFormatSelector'
+import BookFormatSelector from '@/components/checkout/BookFormatSelector'
 import BookCover from './BookCover'
 
 export const dynamic = 'force-dynamic'

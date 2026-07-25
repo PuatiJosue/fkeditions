@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Banner, Field } from '@/components/AuthForm'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 function LoginForm() {
   const router = useRouter()

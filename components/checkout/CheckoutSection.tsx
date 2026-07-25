@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import MobileMoneyForm from '@/components/MobileMoneyForm'
+import MobileMoneyForm from '@/components/checkout/MobileMoneyForm'
 import Link from 'next/link'
 import { useTheme } from '@/lib/useTheme'
 

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
-import Topbar from '@/components/Topbar'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import Providers from '@/components/Providers'
-import GlobalEffects from '@/components/GlobalEffects'
+import Topbar from '@/components/layout/Topbar'
+import Navbar from '@/components/layout/Navbar'
+import Footer from '@/components/layout/Footer'
+import Providers from '@/components/layout/Providers'
+import GlobalEffects from '@/components/layout/GlobalEffects'
 import { getSettings } from '@/lib/settings'
 
 const cormorant = Cormorant_Garamond({

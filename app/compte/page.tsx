@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import PasswordStrength, { isPasswordValid } from '@/components/PasswordStrength'
-import { Banner, Field } from '@/components/AuthForm'
+import PasswordStrength, { isPasswordValid } from '@/components/auth/PasswordStrength'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 interface UserProfile {
   name: string | null

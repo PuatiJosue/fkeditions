@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Banner, Field } from '@/components/AuthForm'
+import { Banner, Field } from '@/components/auth/AuthForm'
 
 function ResetPasswordForm() {
   const router = useRouter()
