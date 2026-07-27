@@ -25,6 +25,20 @@ Basée à Kinshasa, République Démocratique du Congo 🇨🇩
 
 FK Éditions est une application **full-stack** construite avec **Next.js (App Router)**. Elle couvre l'intégralité du parcours d'une maison d'édition moderne : catalogue en ligne, lecture d'ebooks et d'audiolivres dans le navigateur, trois moyens de paiement (dont le **Mobile Money** local), gestion des abonnements, et un panneau d'administration riche pour piloter le catalogue, les commandes et les utilisateurs.
 
+## 🎯 Le but du site
+
+FK Éditions répond à un objectif clair : **donner à une maison d'édition indépendante congolaise une vitrine et une boutique numériques complètes**, pour diffuser la culture, la littérature et le savoir africains bien au-delà de Kinshasa.
+
+Concrètement, le site permet de :
+
+- 📖 **Vendre et lire les ouvrages** de la maison — en **numérique** (PDF / ePub), en **papier** et en **audio** — directement en ligne, sans intermédiaire.
+- 💳 **Rendre l'achat accessible localement** grâce au **Mobile Money** (M-Pesa, Airtel), le moyen de paiement du quotidien en RDC, en plus de la carte bancaire et de PayPal pour l'international.
+- 🎓 **Former et transmettre** via **FLYSYS**, la plateforme d'apprentissage par abonnement (cours, exercices, analyses) accessible à tous et aux institutions.
+- 🗞️ **Faire rayonner la marque** avec l'espace **Magazine**, les **événements**, le **livre d'or** et la **newsletter**.
+- 🛠️ **Rendre l'équipe totalement autonome** : catalogue, prix, contenus, commandes et abonnements se gèrent depuis un **back-office**, sans jamais toucher au code.
+
+> En une phrase : **une maison d'édition entièrement pilotable en ligne, pensée pour le marché congolais et ouverte sur le monde.**
+
 ## 📸 Captures d'écran
 
 > 🖼️ Déposez vos images dans [`docs/screenshots/`](./docs/screenshots) en respectant les noms ci-dessous, elles s'afficheront automatiquement.
