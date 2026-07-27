@@ -33,3 +33,6 @@ next-env.d.ts
 # paquets de déploiement temporaires
 deploy-*.tar.gz
 GUIDE-S3.md
+
+# log local du serveur de dev
+.dev-server.log
