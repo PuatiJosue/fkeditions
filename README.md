@@ -46,20 +46,12 @@ Concrètement, le site permet de :
 | Accueil | Catalogue |
 |:---:|:---:|
 | ![Page d'accueil](docs/screenshots/accueil.png) | ![Catalogue des livres](docs/screenshots/catalogue.png) |
-| **Fiche livre** | **Lecteur audio** |
-| ![Fiche d'un livre](docs/screenshots/fiche-livre.png) | ![Lecteur audio](docs/screenshots/lecteur-audio.png) |
-| **FLYSYS — Abonnements** | **Ma bibliothèque** |
-| ![Abonnements FLYSYS](docs/screenshots/flysys.png) | ![Bibliothèque personnelle](docs/screenshots/bibliotheque.png) |
-| **Back-office — Tableau de bord** | **Back-office — Utilisateurs** |
-| ![Tableau de bord admin](docs/screenshots/admin-dashboard.png) | ![Gestion des utilisateurs](docs/screenshots/admin-utilisateurs.png) |
+| **Fiche livre** | **FLYSYS — Abonnements** |
+| ![Fiche d'un livre](docs/screenshots/fiche-livre.png) | ![Abonnements FLYSYS](docs/screenshots/flysys.png) |
 
 <!--
-  Pour remplir cette section :
-  1. Crée le dossier docs/screenshots/ (déjà présent).
-  2. Dépose tes captures en .png avec exactement ces noms :
-       accueil.png · catalogue.png · fiche-livre.png · lecteur-audio.png
-       flysys.png · bibliotheque.png · admin-dashboard.png · admin-utilisateurs.png
-  3. Ajoute/retire des lignes du tableau selon le nombre de captures.
+  Captures du back-office (bibliothèque, tableau de bord, utilisateurs) et lecteur audio
+  à ajouter avec des DONNÉES DE DÉMONSTRATION (jamais de vrais emails/noms d'utilisateurs).
   Astuce : largeur ~1280px, format paysage, thème clair pour un rendu homogène.
 -->
 
