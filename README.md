@@ -206,5 +206,5 @@ Développé par **Josué Puati** · Maison d'édition **FK Éditions**, fondée 
 ---
 
 <div align="center">
-<sub>Fait avec ❤️ à Kinshasa</sub>
+<sub></sub>
 </div>
