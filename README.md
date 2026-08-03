@@ -48,11 +48,15 @@ Concrètement, le site permet de :
 | ![Page d'accueil](docs/screenshots/accueil.png) | ![Catalogue des livres](docs/screenshots/catalogue.png) |
 | **Fiche livre** | **FLYSYS — Abonnements** |
 | ![Fiche d'un livre](docs/screenshots/fiche-livre.png) | ![Abonnements FLYSYS](docs/screenshots/flysys.png) |
+| **Ma bibliothèque** | **Back-office — Tableau de bord** |
+| ![Bibliothèque personnelle](docs/screenshots/bibliotheque.png) | ![Tableau de bord admin](docs/screenshots/admin-dashboard.png) |
+| **Back-office — Utilisateurs** | |
+| ![Gestion des utilisateurs](docs/screenshots/admin-utilisateurs.png) | |
 
 <!--
-  Captures du back-office (bibliothèque, tableau de bord, utilisateurs) et lecteur audio
-  à ajouter avec des DONNÉES DE DÉMONSTRATION (jamais de vrais emails/noms d'utilisateurs).
-  Astuce : largeur ~1280px, format paysage, thème clair pour un rendu homogène.
+  Confidentialité : sur les captures du back-office, les emails et noms sont FLOUTÉS
+  (aucune donnée personnelle réelle visible).
+  Dernière capture à ajouter : lecteur-audio.png (cellule libre ci-dessus).
 -->
 
 ## 🚀 Fonctionnalités
