@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react'
 
 interface Props {
   blob: Blob
@@ -120,13 +120,20 @@ async function parseEpub(blob: Blob): Promise<string[]> {
   return chapters
 }
 
-export default function EPUBViewer({ blob, width, onLoadSuccess, onError, userEmail, isAdmin }: Props) {
+export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmin }: Props) {
   const originalPrintRef = useRef<typeof window.print | null>(null)
   const [chapters, setChapters] = useState<string[]>([])
-  const [currentChapter, setCurrentChapter] = useState(0)
   const [ready, setReady] = useState(false)
+  const [page, setPage] = useState(0)
+  const [pageCount, setPageCount] = useState(1)
+  const [pageH, setPageH] = useState(560)
+  const pagesRef = useRef<HTMLDivElement>(null)
 
   const protect = !isAdmin
+  const pageW = Math.max(280, Math.round(width))
+  const HPAD = pageW < 500 ? 18 : 36
+  const VPAD = 24
+  const colW = Math.max(200, pageW - 2 * HPAD)
 
   useEffect(() => {
     if (!protect) return
@@ -185,17 +192,44 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, userEm
   useEffect(() => {
     let cancelled = false
     parseEpub(blob)
-      .then(chs => {
-        if (cancelled) return
-        setChapters(chs)
-        setReady(true)
-        onLoadSuccess(chs.length)
-      })
-      .catch(err => {
-        if (!cancelled) onError(err?.message ?? 'Erreur de chargement du livre')
-      })
+      .then(chs => { if (!cancelled) { setChapters(chs); setReady(true) } })
+      .catch(err => { if (!cancelled) onError(err?.message ?? 'Erreur de chargement du livre') })
     return () => { cancelled = true }
   }, [blob])
+
+  // Hauteur d'une page selon la fenêtre.
+  useEffect(() => {
+    const compute = () => setPageH(Math.max(360, window.innerHeight - 140))
+    compute()
+    window.addEventListener('resize', compute)
+    return () => window.removeEventListener('resize', compute)
+  }, [])
+
+  // Tout le livre concaténé ; chaque chapitre démarre sur une nouvelle page.
+  const contentHtml = useMemo(
+    () => chapters.map(c => `<section class="fk-chap">${c}</section>`).join(''),
+    [chapters],
+  )
+
+  // Mesure le nombre de pages (colonnes) une fois le contenu mis en page.
+  useLayoutEffect(() => {
+    if (!ready) return
+    const el = pagesRef.current
+    if (!el) return
+    const measure = () => {
+      const count = Math.max(1, Math.round(el.scrollWidth / pageW))
+      setPageCount(count)
+      onLoadSuccess(count)
+      setPage(p => Math.min(p, count - 1))
+    }
+    measure()
+    const t = setTimeout(measure, 600) // re-mesure après décodage des images
+    return () => clearTimeout(t)
+  }, [ready, contentHtml, pageW, pageH])
+
+  function go(delta: number) {
+    setPage(p => Math.min(pageCount - 1, Math.max(0, p + delta)))
+  }
 
   if (!ready) return (
     <div className="flex items-center justify-center py-20">
@@ -203,54 +237,56 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, userEm
     </div>
   )
 
+  const css = `<style>
+    .fk-chap { break-before: column; }
+    .fk-chap:first-child { break-before: auto; }
+    .fk-epub-pages img { max-width: ${colW}px; max-height: ${pageH - 2 * VPAD - 16}px; height: auto; display: block; margin: 10px auto; break-inside: avoid; }
+    .fk-epub-pages h1, .fk-epub-pages h2, .fk-epub-pages h3 { break-after: avoid; }
+    .fk-epub-pages p { orphans: 2; widows: 2; margin: 0 0 0.8em; text-align: justify; }
+  </style>`
+
   return (
     <div
       onContextMenu={protect ? e => e.preventDefault() : undefined}
       style={protect ? { userSelect: 'none', WebkitUserSelect: 'none' } : undefined}
     >
-      <div className="relative">
+      <div style={{ width: pageW, height: pageH, overflow: 'hidden', margin: '0 auto', background: '#fff' }}>
         <div
-          className={`px-6 py-10 bg-white${protect ? ' fk-epub-content' : ''}`}
+          ref={pagesRef}
+          className={`fk-epub-pages${protect ? ' fk-epub-content' : ''}`}
           style={{
-            fontSize: '16px',
-            lineHeight: '1.85',
+            height: pageH,
+            columnWidth: `${colW}px`,
+            columnGap: `${2 * HPAD}px`,
+            columnFill: 'auto',
+            boxSizing: 'border-box',
+            paddingTop: VPAD,
+            paddingBottom: VPAD,
+            transform: `translateX(${HPAD - page * pageW}px)`,
+            transition: 'transform 0.25s ease',
+            fontSize: '17px',
+            lineHeight: 1.75,
             color: '#1a1a1a',
             fontFamily: 'Georgia, "Times New Roman", serif',
-            minHeight: '70vh',
             userSelect: protect ? 'none' : 'auto',
             WebkitUserSelect: protect ? 'none' : 'auto',
-            ...(protect ? {
-              WebkitTouchCallout: 'none' as any,
-              touchAction: 'pan-y',
-              MozUserSelect: 'none' as any,
-            } : {}),
+            ...(protect ? { WebkitTouchCallout: 'none' as any, MozUserSelect: 'none' as any } : {}),
           }}
-          dangerouslySetInnerHTML={{ __html: `<style>img{max-width:100%;height:auto;display:block;margin:0 auto}</style>${chapters[currentChapter] ?? ''}` }}
+          dangerouslySetInnerHTML={{ __html: css + contentHtml }}
         />
-
       </div>
 
-      {chapters.length > 1 && (
-        <div className="flex items-center justify-center gap-6 py-4 bg-dark-2 border-t border-dark-4">
-          <button
-            onClick={() => setCurrentChapter(c => Math.max(0, c - 1))}
-            disabled={currentChapter === 0}
-            className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors"
-          >
-            ← Précédent
-          </button>
-          <span className="text-xs text-cream-muted">
-            {currentChapter + 1} / {chapters.length}
-          </span>
-          <button
-            onClick={() => setCurrentChapter(c => Math.min(chapters.length - 1, c + 1))}
-            disabled={currentChapter === chapters.length - 1}
-            className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors"
-          >
-            Suivant →
-          </button>
-        </div>
-      )}
+      <div className="flex items-center justify-center gap-6 py-4 bg-dark-2 border-t border-dark-4 select-none">
+        <button onClick={() => go(-1)} disabled={page === 0}
+          className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors">
+          ← Précédent
+        </button>
+        <span className="text-xs text-cream-muted">{page + 1} / {pageCount}</span>
+        <button onClick={() => go(1)} disabled={page >= pageCount - 1}
+          className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors">
+          Suivant →
+        </button>
+      </div>
     </div>
   )
 }
