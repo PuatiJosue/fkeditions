@@ -255,6 +255,7 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmi
           ref={pagesRef}
           className={`fk-epub-pages${protect ? ' fk-epub-content' : ''}`}
           style={{
+            width: `${colW}px`,
             height: pageH,
             columnWidth: `${colW}px`,
             columnGap: `${2 * HPAD}px`,
