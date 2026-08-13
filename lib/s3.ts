@@ -112,6 +112,34 @@ export async function getObjectFromS3(key: string, range?: string) {
   }
 }
 
+/**
+ * Récupère un objet S3 sous forme de FLUX web (sans charger le fichier entier
+ * en RAM). Indispensable pour servir de gros fichiers sur un petit serveur.
+ * Renvoie null si la clé n'existe pas (404/403) pour basculer sur le disque.
+ */
+export async function getObjectStreamFromS3(key: string) {
+  if (!isS3Configured()) return null
+  try {
+    const res = await client().send(new GetObjectCommand({ Bucket: bucket, Key: key }))
+    return {
+      stream: res.Body!.transformToWebStream(),
+      contentLength: res.ContentLength,
+      contentType: res.ContentType,
+    }
+  } catch (err: unknown) {
+    const e = err as { name?: string; Code?: string; $metadata?: { httpStatusCode?: number } }
+    const code = e?.name ?? e?.Code
+    const status = e?.$metadata?.httpStatusCode
+    if (
+      code === 'NoSuchKey' || code === 'NotFound' || code === 'AccessDenied' ||
+      status === 404 || status === 403
+    ) {
+      return null
+    }
+    throw err
+  }
+}
+
 /** Supprime un objet du bucket (sans planter si la clé n'existe pas). */
 export async function deleteFromS3(key: string): Promise<void> {
   if (!isS3Configured()) return

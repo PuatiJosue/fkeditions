@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { readFile } from 'fs/promises'
+import { createReadStream } from 'fs'
+import { Readable } from 'stream'
 import path, { resolve } from 'path'
 import { existsSync } from 'fs'
 import { verifyToken } from '@/lib/signedToken'
-import { getObjectFromS3, privateKey } from '@/lib/s3'
+import { getObjectStreamFromS3, privateKey } from '@/lib/s3'
 
 export async function GET(req: Request, { params }: { params: Promise<{ bookSlug: string }> }) {
   const session = await getServerSession(authOptions)
@@ -42,11 +43,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ bookSlug
 
   // Servir ePub en priorité, sinon PDF. On tente S3 (stockage permanent privé),
   // sinon on lit le disque (anciens fichiers non encore migrés).
+  // On STREAME le fichier (jamais chargé entièrement en RAM) : indispensable
+  // sur un petit serveur, sinon les gros fichiers saturent la mémoire.
   if (book.epubFile) {
-    const fileName = path.basename(book.epubFile)
-    const buffer = await readPrivate('epubs', fileName)
-    if (!buffer) return NextResponse.json({ error: 'Fichier introuvable — contactez le support' }, { status: 404 })
-    return new NextResponse(buffer, {
+    const stream = await streamPrivate('epubs', path.basename(book.epubFile))
+    if (!stream) return NextResponse.json({ error: 'Fichier introuvable — contactez le support' }, { status: 404 })
+    return new NextResponse(stream, {
       headers: {
         'Content-Type': 'application/epub+zip',
         'Content-Disposition': `inline; filename="${book.slug}.epub"`,
@@ -57,10 +59,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ bookSlug
   }
 
   if (book.pdfFile) {
-    const fileName = path.basename(book.pdfFile)
-    const buffer = await readPrivate('pdfs', fileName)
-    if (!buffer) return NextResponse.json({ error: 'Fichier PDF introuvable — contactez le support' }, { status: 404 })
-    return new NextResponse(buffer, {
+    const stream = await streamPrivate('pdfs', path.basename(book.pdfFile))
+    if (!stream) return NextResponse.json({ error: 'Fichier PDF introuvable — contactez le support' }, { status: 404 })
+    return new NextResponse(stream, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${book.slug}.pdf"`,
@@ -73,14 +74,17 @@ export async function GET(req: Request, { params }: { params: Promise<{ bookSlug
   return NextResponse.json({ error: 'Fichier non disponible pour ce livre' }, { status: 404 })
 }
 
-/** Lit un fichier privé : S3 en priorité, sinon disque (rétro-compatibilité). */
-async function readPrivate(subdir: string, fileName: string) {
-  const s3 = await getObjectFromS3(privateKey(subdir, fileName))
-  if (s3) return s3.buffer
+/**
+ * Renvoie un FLUX du fichier privé sans le charger en RAM :
+ * S3 en priorité (flux web), sinon lecture disque en flux (rétro-compatibilité).
+ */
+async function streamPrivate(subdir: string, fileName: string): Promise<ReadableStream | null> {
+  const s3 = await getObjectStreamFromS3(privateKey(subdir, fileName))
+  if (s3) return s3.stream
 
   const basePath = resolve(process.cwd(), 'private', subdir)
   const filePath = resolve(basePath, fileName)
   if (!filePath.startsWith(basePath)) return null
   if (!existsSync(filePath)) return null
-  return readFile(filePath)
+  return Readable.toWeb(createReadStream(filePath)) as ReadableStream
 }
