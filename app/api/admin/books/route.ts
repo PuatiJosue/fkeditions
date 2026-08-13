@@ -65,7 +65,9 @@ export async function POST(req: Request) {
         releaseDate: data.releaseDate ? new Date(data.releaseDate as string) : null,
         content: (data.content as Prisma.InputJsonValue) ?? Prisma.JsonNull,
         coAuthors: (data.coAuthors as string) || null,
-        authorId: (data.authorId as string) ?? null,
+        // '' (option « Aucun auteur ») doit devenir null, sinon Prisma cherche
+        // un auteur d'id vide → violation de clé étrangère (P2003).
+        authorId: (data.authorId as string) || null,
       },
     })
     return NextResponse.json(book, { status: 201 })
@@ -73,6 +75,9 @@ export async function POST(req: Request) {
     // Slug déjà utilisé → message clair plutôt qu'un 500 vide.
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
       return NextResponse.json({ error: 'Un livre avec ce slug existe déjà. Choisissez-en un autre.' }, { status: 409 })
+    }
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2003') {
+      return NextResponse.json({ error: "L'auteur sélectionné n'existe pas (ou n'est plus valide). Choisissez-en un autre." }, { status: 400 })
     }
     console.error('[POST /api/admin/books] échec de création :', err)
     const message = err instanceof Error ? err.message : 'Erreur lors de la création du livre.'
