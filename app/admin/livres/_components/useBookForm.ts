@@ -13,6 +13,18 @@ function fileNameFrom(path?: string) {
   return path ? path.split('/').pop() ?? '' : ''
 }
 
+/** Lit une réponse en JSON sans planter si le corps est vide ou non-JSON
+ *  (évite l'erreur cryptique « Unexpected end of JSON input »). */
+async function safeJson(res: Response): Promise<Record<string, unknown>> {
+  const text = await res.text()
+  if (!text) return {}
+  try {
+    return JSON.parse(text)
+  } catch {
+    return {}
+  }
+}
+
 /** Gère l'état, les fichiers et la soumission (création + uploads) du formulaire livre. */
 export function useBookForm(initial?: Partial<BookData>) {
   const router = useRouter()
@@ -97,8 +109,13 @@ export function useBookForm(initial?: Partial<BookData>) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, content: contentArray }),
       })
-      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? 'Erreur') }
-      const { id: bookId } = await res.json()
+      if (!res.ok) {
+        const d = await safeJson(res)
+        throw new Error((d.error as string) || `Erreur serveur (${res.status}). Vérifiez la base de données.`)
+      }
+      const created = await safeJson(res)
+      const bookId = created.id as string | undefined
+      if (!bookId) throw new Error('Réponse inattendue du serveur (aucun identifiant renvoyé).')
       if (coverFile) {
         setUploadStatus('Upload de la couverture…')
         await fetch(`/api/admin/books/${bookId}/cover`, { method: 'POST', headers: { 'Content-Type': coverFile.type }, body: coverFile })
