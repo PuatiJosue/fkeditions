@@ -22,6 +22,15 @@ function resolvePath(base: string, relative: string): string {
   return resolved.join('/')
 }
 
+/** Décode un chemin encodé (%20, %C3%A9…) sans planter sur une séquence invalide. */
+function safeDecode(path: string): string {
+  try {
+    return decodeURIComponent(path)
+  } catch {
+    return path
+  }
+}
+
 async function parseEpub(blob: Blob): Promise<string[]> {
   const buffer = await blob.arrayBuffer()
   const bytes = new Uint8Array(buffer)
@@ -76,7 +85,9 @@ async function parseEpub(blob: Blob): Promise<string[]> {
   const chapters: string[] = []
   for (const chapterPath of spine) {
     const cleanPath = chapterPath.split('#')[0]
-    const file = zip.file(cleanPath)
+    // Tolère l'encodage d'URL : les hrefs de l'OPF peuvent être encodés
+    // (espaces/accents) alors que l'archive stocke les noms en clair.
+    const file = zip.file(cleanPath) ?? zip.file(safeDecode(cleanPath))
     if (!file) continue
 
     let html = await file.async('string')
@@ -88,13 +99,13 @@ async function parseEpub(blob: Blob): Promise<string[]> {
       : ''
 
     content = content.replace(/src="([^"]+)"/g, (_, src) => {
-      const absPath = resolvePath(chapterDir, src)
+      const absPath = resolvePath(chapterDir, safeDecode(src))
       return `src="${imageMap[absPath] ?? ''}"`
     })
     // Handle SVG <image> elements used by Calibre and similar tools for cover pages
     // (cover.xhtml uses <image xlink:href="..."> not <img src="...">)
     content = content.replace(/(<image\b[^>]*)(?:xlink:href|href)="([^"#][^"]*)"/gi, (_, before, href) => {
-      const absPath = resolvePath(chapterDir, href)
+      const absPath = resolvePath(chapterDir, safeDecode(href))
       const b64 = imageMap[absPath]
       return b64 ? `${before}href="${b64}"` : `${before}href=""`
     })
