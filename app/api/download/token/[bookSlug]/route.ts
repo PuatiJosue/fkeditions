@@ -24,10 +24,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ bookSlug
 
   const book = await prisma.book.findUnique({
     where: { slug: bookSlug },
-    select: { epubFile: true, pdfFile: true },
+    select: { epubFile: true, pdfFile: true, pages: true },
   })
 
   const format = book?.epubFile ? 'epub' : 'pdf'
   const token = createToken(session.user.id, `book:${bookSlug}`)
-  return NextResponse.json({ token, format })
+  return NextResponse.json({ token, format, pages: book?.pages ?? null })
 }

@@ -9,6 +9,10 @@ interface Props {
   onError: (msg: string) => void
   userEmail?: string
   isAdmin?: boolean
+  /** Nombre de pages "officiel" du livre (champ admin). S'il est fourni, il est
+   *  affiché tel quel (stable), au lieu du nombre de colonnes mesuré (variable
+   *  selon la taille de l'écran). */
+  bookPages?: number | null
 }
 
 function resolvePath(base: string, relative: string): string {
@@ -120,7 +124,7 @@ async function parseEpub(blob: Blob): Promise<string[]> {
   return chapters
 }
 
-export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmin }: Props) {
+export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmin, bookPages }: Props) {
   const originalPrintRef = useRef<typeof window.print | null>(null)
   const [chapters, setChapters] = useState<string[]>([])
   const [ready, setReady] = useState(false)
@@ -219,7 +223,8 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmi
     const measure = () => {
       const count = Math.max(1, Math.round(el.scrollWidth / pageW))
       setPageCount(count)
-      onLoadSuccess(count)
+      // Affiche le nombre "officiel" (admin) s'il existe, sinon le nombre mesuré.
+      onLoadSuccess(bookPages && bookPages > 0 ? bookPages : count)
       setPage(p => Math.min(p, count - 1))
     }
     measure()
@@ -282,7 +287,11 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmi
           className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors">
           ← Précédent
         </button>
-        <span className="text-xs text-cream-muted">{page + 1} / {pageCount}</span>
+        <span className="text-xs text-cream-muted">
+          {bookPages && bookPages > 0
+            ? `${Math.min(bookPages, Math.round((page / Math.max(1, pageCount - 1)) * (bookPages - 1)) + 1)} / ${bookPages}`
+            : `${page + 1} / ${pageCount}`}
+        </span>
         <button onClick={() => go(1)} disabled={page >= pageCount - 1}
           className="px-4 py-2 text-xs uppercase tracking-widest text-cream-muted hover:text-gold disabled:opacity-30 transition-colors">
           Suivant →

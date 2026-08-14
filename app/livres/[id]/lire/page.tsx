@@ -17,6 +17,7 @@ export default function LireLivrePage() {
   const [fileBlob, setFileBlob] = useState<Blob | null>(null)
   const [format, setFormat] = useState<'epub' | 'pdf' | null>(null)
   const [numPages, setNumPages] = useState(0)
+  const [bookPages, setBookPages] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [width, setWidth] = useState(390)
@@ -32,6 +33,7 @@ export default function LireLivrePage() {
     const data = await res.json()
     tokenRef.current = data.token
     setFormat(data.format ?? 'epub')
+    setBookPages(typeof data.pages === 'number' ? data.pages : null)
     return data.token
   }
 
@@ -88,6 +90,7 @@ export default function LireLivrePage() {
             onError={setError}
             userEmail={session?.user?.email ?? ''}
             isAdmin={session?.user?.role === 'ADMIN'}
+            bookPages={bookPages}
           />
         )}
         {fileBlob && format === 'pdf' && (
