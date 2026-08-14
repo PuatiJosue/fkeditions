@@ -113,6 +113,13 @@ async function parseEpub(blob: Blob): Promise<string[]> {
       const b64 = imageMap[absPath]
       return b64 ? `${before}href="${b64}"` : `${before}href=""`
     })
+    // Convertit une couverture SVG (<svg>…<image href="data:…"/>…</svg>) en simple
+    // <img> : le dimensionnement passe alors par le CSS `img` (fiable), sinon la
+    // couverture SVG déborde la page et est coupée (cas "Elles ont écrit l'histoire").
+    content = content.replace(
+      /<svg\b[^>]*>[\s\S]*?<image\b[^>]*?(?:xlink:href|href)="(data:[^"]+)"[\s\S]*?<\/svg>/gi,
+      (_, dataUri) => `<img src="${dataUri}" alt="" />`,
+    )
     content = content.replace(/<script[\s\S]*?<\/script>/gi, '')
     content = content.replace(/\bon\w+="[^"]*"/gi, '')
     // Strip external hrefs on <a> elements only — NOT on SVG <image> elements
@@ -246,6 +253,10 @@ export default function EPUBViewer({ blob, width, onLoadSuccess, onError, isAdmi
     .fk-chap { break-before: column; }
     .fk-chap:first-child { break-before: auto; }
     .fk-epub-pages img { max-width: ${colW}px; max-height: ${pageH - 2 * VPAD - 16}px; height: auto; display: block; margin: 10px auto; break-inside: avoid; }
+    /* Couvertures SVG (format Calibre : <svg><image .../></svg>) : mêmes contraintes
+       que les <img>, sinon elles débordent la page et sont coupées. */
+    .fk-epub-pages svg { max-width: ${colW}px; max-height: ${pageH - 2 * VPAD - 16}px; width: auto; height: auto; display: block; margin: 10px auto; break-inside: avoid; }
+    .fk-epub-pages svg image { width: 100%; height: 100%; }
     .fk-epub-pages h1, .fk-epub-pages h2, .fk-epub-pages h3 { break-after: avoid; }
     .fk-epub-pages p { orphans: 2; widows: 2; margin: 0 0 0.8em; text-align: justify; }
   </style>`
